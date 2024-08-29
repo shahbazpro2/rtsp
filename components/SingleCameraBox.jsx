@@ -1,8 +1,10 @@
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
 const SingleCameraBox = ({ index, isBlinking }) => {
   const [isDisabledMovement, setIsDisabledMovement] = React.useState(false);
   const [startBlinking, setStartBlinking] = React.useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     let timeout = setTimeout(() => {
@@ -33,6 +35,7 @@ const SingleCameraBox = ({ index, isBlinking }) => {
   const onClickCamera = (e) => {
     console.log('double click');
     console.log(index);
+    router.push(`/events/${index + 1}`);
   }
 
   console.log('isDisabledMovement', isDisabledMovement);
