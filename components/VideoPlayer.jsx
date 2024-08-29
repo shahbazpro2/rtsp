@@ -5,7 +5,7 @@ import SingleCameraBox from "./SingleCameraBox";
 
 const ffmpegIP = "localhost";
 
-const randomIndex = () => Math.floor(Math.random() * 16);
+const randomIndex = Math.floor(Math.random() * 16);
 
 const VideoPlayer = () => {
     useEffect(() => {
@@ -39,7 +39,7 @@ const VideoPlayer = () => {
                     <div className="grid grid-cols-4 absolute top-0 w-full h-full">
                         {
                             Array.from({ length: 16 }).map((_, index) => (
-                                <SingleCameraBox key={index} index={index} isBlinking={index === randomIndex()} />
+                                <SingleCameraBox key={index} index={index} isBlinking={index === randomIndex} />
                             ))
                         }
                     </div>
