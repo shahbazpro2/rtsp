@@ -27,3 +27,18 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes blink-border {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(0, 255, 0); /* Change this to any color you like */
+  }
+}
+
+.blinking-border {
+  @apply border-4 border-solid;
+  animation: blink-border 0.5s infinite;
+}
