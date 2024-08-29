@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@cycjimmy/jsmpeg-player": "^6.1.1",
+    "amqp": "^0.2.7",
     "next": "14.2.6",
     "node-rtsp-stream": "^0.0.9",
+    "rabbitmq-client": "^4.6.0",
     "react": "^18",
     "react-dom": "^18"
   },
