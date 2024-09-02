@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
 import SingleCameraBox from "./SingleCameraBox";
-
+import { io } from "socket.io-client";
 const ffmpegIP = "localhost";
 
 const randomIndex = Math.floor(Math.random() * 16);
@@ -20,6 +20,21 @@ const VideoPlayer = () => {
          console.log(player); */
     }, []);
 
+    useEffect(() => {
+        // Connect to the Socket.IO server
+        const socket = io();
+
+        // Listen for 'camera-status' messages
+        socket.on("camera-status", (message) => {
+            console.log('socket', message);
+        });
+
+        // Cleanup on component unmount
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
 
 
     return (
@@ -33,7 +48,7 @@ const VideoPlayer = () => {
             <div className="flex justify-center items-center mt-7">
                 <div className="relative">
                     {/*  <div id="video-canvas" style={{ height: 600, width: 1300 }}></div> */}
-                    <video id="video-canvas" controls autoPlay style={{ height: 565, width: 1000 }}>
+                    <video controls autoPlay style={{ height: 565, width: 1000 }}>
                         <source src="/video.mp4" type="video/mp4" />
                     </video>
                     <div className="grid grid-cols-4 absolute top-0 w-full h-full">

@@ -10,12 +10,15 @@
   },
   "dependencies": {
     "@cycjimmy/jsmpeg-player": "^6.1.1",
-    "amqp": "^0.2.7",
+    "amqplib": "^0.10.4",
     "next": "14.2.6",
     "node-rtsp-stream": "^0.0.9",
     "rabbitmq-client": "^4.6.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "socket-io": "^1.0.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "eslint": "^8",
