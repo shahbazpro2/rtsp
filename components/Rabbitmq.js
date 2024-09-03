@@ -1,26 +1,8 @@
 import amqp from "amqplib";
-import { Server } from "socket.io";
-
-// Function to initialize Socket.IO
-export function initializeSocket(server) {
-  const io = new Server(server);
-
-  io.on("connection", (socket) => {
-    console.log("A client connected:", socket.id);
-
-    // Handle client disconnection
-    socket.on("disconnect", () => {
-      console.log("A client disconnected:", socket.id);
-    });
-  });
-
-  return io;
-}
 
 // Function to consume messages from RabbitMQ and emit to Socket.IO clients
-export async function Rabbitmq() {
+export async function Rabbitmq(io) {
   try {
-    const io = initializeSocket(server);
     const connection = await amqp.connect("amqp://127.0.0.1");
     const channel = await connection.createChannel();
 

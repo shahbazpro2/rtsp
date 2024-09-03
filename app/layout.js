@@ -1,8 +1,7 @@
+import Header from "@/components/Header";
+import { StreamComp } from "@/components/Stream";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import { Rabbitmq } from "@/components/Rabbitmq";
-import { StreamComp } from "@/components/Stream";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +15,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Header />
         {children}
-        <Rabbitmq />
+        {/*  <Rabbitmq /> */}
         <StreamComp />
       </body>
     </html>

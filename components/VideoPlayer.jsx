@@ -23,6 +23,9 @@ const VideoPlayer = () => {
     useEffect(() => {
         // Connect to the Socket.IO server
         const socket = io();
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        })
 
         // Listen for 'camera-status' messages
         socket.on("camera-status", (message) => {

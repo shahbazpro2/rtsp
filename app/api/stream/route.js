@@ -4,7 +4,7 @@ export async function GET() {
   if (!global.stream) {
     global.stream = new Stream({
       name: "Bunny",
-      streamUrl: "rtsp://admin:zxcvbnm0.@190.92.4.249:554/cam/realmonitor?channel=1&subtype=0",
+      streamUrl: "rtsp://127.0.0.1:8554/stream1",
       wsPort: 6789,
       ffmpegOptions: {
         "-f": "mpegts",
