@@ -1,13 +1,13 @@
 import amqp from "amqplib";
 
-const queueFetch = async (channel, io, queue) => {
+const queueFetch = async (channel, socket, queue) => {
   try {
     await channel.assertQueue(queue, { durable: true });
     channel.consume(queue, (msg) => {
       if (msg !== null) {
         const messageContent = msg.content.toString();
         console.log("Received message:", messageContent);
-        io.emit(queue, messageContent);
+        socket.broadcast.emit(queue, messageContent);
         channel.ack(msg);
       }
     });
@@ -16,14 +16,14 @@ const queueFetch = async (channel, io, queue) => {
   }
 };
 
-export async function Rabbitmq(io) {
+export async function Rabbitmq(socket) {
   try {
-    const connection = await amqp.connect("amqp://127.0.0.1");
+    const connection = await amqp.connect("amqp://NVR:NVR@localhost:5672");
     const channel = await connection.createChannel();
 
     const queue = "Camera-Status";
-    queueFetch(channel, io, "Camera-Status");
-    queueFetch(channel, io, "NVR-Alert");
+    queueFetch(channel, socket, "Camera-Status");
+    queueFetch(channel, socket, "NVR-Alert");
 
     console.log("Waiting for messages in", queue);
 

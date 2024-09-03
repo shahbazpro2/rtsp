@@ -19,7 +19,7 @@ const socketIo = (handle) => {
 
   io.on("connection", (socket) => {
     console.log("A client connected:", socket.id);
-    Rabbitmq(io);
+    Rabbitmq(socket);
 
     socket.on("disconnect", () => {
       console.log("A client disconnected:", socket.id);
