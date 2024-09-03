@@ -1,10 +1,10 @@
 import { Server as SocketIOServer } from "socket.io";
 import { createServer } from "http";
 import { parse } from "url";
-import { Rabbitmq } from "./components/Rabbitmq.js";
+import { Rabbitmq } from "./Rabbitmq.js";
+import { queues } from "./constant.js";
 
 export let io;
-export const queues = ["Camera-Status", "NVR-Alert"];
 
 let currentQueueData = {
   [queues[0]]: {},

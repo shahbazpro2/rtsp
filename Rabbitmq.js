@@ -1,5 +1,5 @@
 import amqp from "amqplib";
-import { queues } from "@/socket";
+import { queues } from "./constant.js";
 
 const [queue1, queue2] = queues;
 
