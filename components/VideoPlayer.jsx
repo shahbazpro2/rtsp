@@ -38,7 +38,7 @@ const VideoPlayer = () => {
         socket.on('NVR-Alert', (val) => {
             //check which camera value is true
             for (const camera in val) {
-                if (cameraStatus[camera]) {
+                if (val[camera]) {
                     setBlinkCamera(camera);
                     break; // Stop the loop as soon as a true value is found
                 }
@@ -51,7 +51,7 @@ const VideoPlayer = () => {
         };
     }, []);
 
-    console.log('cameras', cameras)
+    console.log('cameras', cameras, blinkCamera)
 
 
     return (
