@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
-const SingleCameraBox = ({ index, isBlinking }) => {
+const SingleCameraBox = ({ data, isBlinking }) => {
   const [isDisabledMovement, setIsDisabledMovement] = React.useState(false);
   const [startBlinking, setStartBlinking] = React.useState(false);
   const router = useRouter();
@@ -34,11 +34,9 @@ const SingleCameraBox = ({ index, isBlinking }) => {
 
   const onClickCamera = (e) => {
     console.log('double click');
-    console.log(index);
-    router.push(`/events/${index + 1}`);
+    router.push(`/events/${data}`);
   }
 
-  console.log('isDisabledMovement', isDisabledMovement);
 
   return (
     <div className={`h-[140px] ${(startBlinking && !isDisabledMovement) ? 'blinking-border' : ''}   cursor-pointer`} onClick={onMovementBlock} onDoubleClick={onClickCamera}>

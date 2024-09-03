@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
 import SingleCameraBox from "./SingleCameraBox";
 import { io } from "socket.io-client";
@@ -8,6 +8,8 @@ const ffmpegIP = "localhost";
 const randomIndex = Math.floor(Math.random() * 16);
 
 const VideoPlayer = () => {
+    const [cameras, setCameras] = useState(null);
+    const [nvrCameras, setNvrCameras] = useState(null)
     useEffect(() => {
         /*  fetch("/api/stream")
              .then((response) => response.json())
@@ -28,9 +30,14 @@ const VideoPlayer = () => {
         })
 
         // Listen for 'camera-status' messages
-        socket.on("camera-status", (message) => {
-            console.log('socket', message);
+        socket.on("Camera-Status", (val) => {
+            console.log('socket', val);
+            setCameras(val);
         });
+
+        socket.on('NVR-Alert', (val) => {
+            setNvrCameras(val)
+        })
 
         // Cleanup on component unmount
         return () => {
@@ -38,6 +45,7 @@ const VideoPlayer = () => {
         };
     }, []);
 
+    console.log('cameras', cameras)
 
 
     return (
@@ -56,8 +64,8 @@ const VideoPlayer = () => {
                     </video>
                     <div className="grid grid-cols-4 absolute top-0 w-full h-full">
                         {
-                            Array.from({ length: 16 }).map((_, index) => (
-                                <SingleCameraBox key={index} index={index} isBlinking={index === randomIndex} />
+                            Object.entries(cameras || {}).map(([key, _], index) => (
+                                <SingleCameraBox data={key} key={index} isBlinking={nvrCameras?.[key]} />
                             ))
                         }
                     </div>
