@@ -1,8 +1,11 @@
 import amqp from "amqplib";
 
+const queue1 = "Camera-Status";
+const queue2 = "NVR-Alert";
+
 let currentQueueData = {
-  "Camera-Status": {},
-  "NVR-Alert": {},
+  [queue1]: {},
+  [queue2]: {},
 };
 
 const queueFetch = async (channel, socket, queue) => {
@@ -13,7 +16,7 @@ const queueFetch = async (channel, socket, queue) => {
         const messageContent = msg.content.toString();
         console.log("Received message:", messageContent);
         currentQueueData[queue] = messageContent;
-        socket.emit(queue, currentQueueData[queue]);
+        socket.emit(queue, messageContent);
         channel.ack(msg);
       }
     });
@@ -27,9 +30,10 @@ export async function Rabbitmq(socket) {
     const connection = await amqp.connect("amqp://NVR:NVR@localhost:5672");
     const channel = await connection.createChannel();
 
-    const queue = "Camera-Status";
-    queueFetch(channel, socket, "Camera-Status");
-    queueFetch(channel, socket, "NVR-Alert");
+    socket.emit(queue1, currentQueueData[queue1]);
+    socket.emit(queue2, currentQueueData[queue2]);
+    queueFetch(channel, socket, queue1);
+    queueFetch(channel, socket, queue2);
 
     /*  console.log("Waiting for messages in", queue); */
 
