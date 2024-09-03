@@ -1,12 +1,7 @@
 import amqp from "amqplib";
+import { queues } from "@/socket";
 
-const queue1 = "Camera-Status";
-const queue2 = "NVR-Alert";
-
-let currentQueueData = {
-  [queue1]: {},
-  [queue2]: {},
-};
+const [queue1, queue2] = queues;
 
 const queueFetch = async (channel, socket, queue) => {
   try {
@@ -25,7 +20,7 @@ const queueFetch = async (channel, socket, queue) => {
   }
 };
 
-export async function Rabbitmq(socket) {
+export async function Rabbitmq(currentQueueData, socket) {
   try {
     const connection = await amqp.connect("amqp://NVR:NVR@localhost:5672");
     const channel = await connection.createChannel();

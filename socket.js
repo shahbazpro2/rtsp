@@ -4,6 +4,12 @@ import { parse } from "url";
 import { Rabbitmq } from "./components/Rabbitmq.js";
 
 export let io;
+export const queues = ["Camera-Status", "NVR-Alert"];
+
+let currentQueueData = {
+  [queues[0]]: {},
+  [queues[1]]: {},
+};
 
 const socketIo = (handle) => {
   const server = createServer((req, res) => {
@@ -19,7 +25,7 @@ const socketIo = (handle) => {
 
   io.on("connection", (socket) => {
     console.log("A client connected:", socket.id);
-    Rabbitmq(socket);
+    Rabbitmq(currentQueueData, socket);
 
     socket.on("disconnect", () => {
       console.log("A client disconnected:", socket.id);
