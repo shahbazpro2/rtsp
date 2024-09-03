@@ -3,7 +3,7 @@ import { queues } from "./constant.js";
 
 const [queue1, queue2] = queues;
 
-const queueFetch = async (channel, socket, queue) => {
+const queueFetch = async (channel, socket, currentQueueData, queue) => {
   try {
     await channel.assertQueue(queue, { durable: true });
     channel.consume(queue, (msg) => {
@@ -27,8 +27,8 @@ export async function Rabbitmq(currentQueueData, socket) {
 
     socket.emit(queue1, currentQueueData[queue1]);
     socket.emit(queue2, currentQueueData[queue2]);
-    queueFetch(channel, socket, queue1);
-    queueFetch(channel, socket, queue2);
+    queueFetch(channel, socket, currentQueueData, queue1);
+    queueFetch(channel, socket, currentQueueData, queue2);
 
     /*  console.log("Waiting for messages in", queue); */
 
