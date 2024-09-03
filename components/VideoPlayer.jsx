@@ -9,7 +9,7 @@ const randomIndex = Math.floor(Math.random() * 16);
 
 const VideoPlayer = () => {
     const [cameras, setCameras] = useState(null);
-    const [nvrCameras, setNvrCameras] = useState(null)
+    const [blinkCamera, setBlinkCamera] = useState(null);
     useEffect(() => {
         /*  fetch("/api/stream")
              .then((response) => response.json())
@@ -36,7 +36,13 @@ const VideoPlayer = () => {
         });
 
         socket.on('NVR-Alert', (val) => {
-            setNvrCameras(val)
+            //check which camera value is true
+            for (const camera in val) {
+                if (cameraStatus[camera]) {
+                    setBlinkCamera(camera);
+                    break; // Stop the loop as soon as a true value is found
+                }
+            }
         })
 
         // Cleanup on component unmount
@@ -65,7 +71,7 @@ const VideoPlayer = () => {
                     <div className="grid grid-cols-4 absolute top-0 w-full h-full">
                         {
                             Object.entries(cameras || {}).map(([key, _], index) => (
-                                <SingleCameraBox data={key} key={index} isBlinking={nvrCameras?.[key]} />
+                                <SingleCameraBox data={key} key={index} isBlinking={blinkCamera === key} />
                             ))
                         }
                     </div>

@@ -16,14 +16,17 @@ const SingleCameraBox = ({ data, isBlinking }) => {
   }, [isDisabledMovement]);
 
   useEffect(() => {
+    let timeout = null;
     if (isBlinking) {
       setStartBlinking(true);
-      let timeout = setTimeout(() => {
+      timeout = setTimeout(() => {
         setStartBlinking(false);
       }, 5000);
-      return () => {
-        clearTimeout(timeout);
-      }
+    }
+
+    return () => {
+      setStartBlinking(false);
+      clearTimeout(timeout);
     }
   }, [isBlinking]);
 
