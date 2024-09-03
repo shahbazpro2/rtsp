@@ -1,5 +1,10 @@
 import amqp from "amqplib";
 
+let currentQueueData = {
+  "Camera-Status": {},
+  "NVR-Alert": {},
+};
+
 const queueFetch = async (channel, socket, queue) => {
   try {
     await channel.assertQueue(queue, { durable: true });
@@ -7,7 +12,8 @@ const queueFetch = async (channel, socket, queue) => {
       if (msg !== null) {
         const messageContent = msg.content.toString();
         console.log("Received message:", messageContent);
-        socket.broadcast.emit(queue, messageContent);
+        currentQueueData[queue] = messageContent;
+        socket.emit(queue, currentQueueData[queue]);
         channel.ack(msg);
       }
     });
@@ -25,10 +31,10 @@ export async function Rabbitmq(socket) {
     queueFetch(channel, socket, "Camera-Status");
     queueFetch(channel, socket, "NVR-Alert");
 
-    console.log("Waiting for messages in", queue);
+    /*  console.log("Waiting for messages in", queue); */
 
-    /*   io.emit("NVR-Alert", { "Camera 14": false, "camera x": false, "Camera 15": true, "Camera 16": false, "Camera 5": false, "Camera 9": false, "Camera 11": false, "Camera 12": false });
-    io.emit("Camera-Status", {
+    /* socket.emit("NVR-Alert", { "Camera 14": false, "camera x": false, "Camera 15": true, "Camera 16": false, "Camera 5": false, "Camera 9": false, "Camera 11": false, "Camera 12": false });
+    socket.emit("Camera-Status", {
       "Camera 5": "rtsp://admin:12345678k@10.10.10.220",
       "Camera 9": "rtsp://admin:12345678k@10.10.10.221",
       "Camera 11": "rtsp://admin:12345678k@10.10.10.221",
