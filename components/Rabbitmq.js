@@ -1,8 +1,8 @@
 import amqp from "amqplib";
 
-const queueFetch = async (channel, queue) => {
+const queueFetch = async (channel, io, queue) => {
   try {
-    await channel.assertQueue(queue, { durable: false });
+    await channel.assertQueue(queue, { durable: true });
     channel.consume(queue, (msg) => {
       if (msg !== null) {
         const messageContent = msg.content.toString();
@@ -22,8 +22,8 @@ export async function Rabbitmq(io) {
     const channel = await connection.createChannel();
 
     const queue = "Camera-Status";
-    queueFetch(channel, "Camera-Status");
-    queueFetch(channel, "NVR-Alert");
+    queueFetch(channel, io, "Camera-Status");
+    queueFetch(channel, io, "NVR-Alert");
 
     console.log("Waiting for messages in", queue);
 
