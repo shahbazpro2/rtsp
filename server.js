@@ -7,8 +7,8 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = socketIo(handle);
-  server.listen(3000, (err) => {
+  server.listen(3005, (err) => {
     if (err) throw err;
-    console.log("> Ready on http://localhost:3000");
+    console.log("> Ready on http://localhost:3005");
   });
 });

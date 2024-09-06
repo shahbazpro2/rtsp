@@ -1,15 +1,16 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import { blinkCameraAtom, cameraAtom } from "@/hooks/useSocketEvents";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
+import { useAtomValue } from "jotai";
+import { useEffect } from "react";
 import SingleCameraBox from "./SingleCameraBox";
-import { io } from "socket.io-client";
 const ffmpegIP = "localhost";
 
 const randomIndex = Math.floor(Math.random() * 16);
 
 const VideoPlayer = () => {
-    const [cameras, setCameras] = useState(null);
-    const [blinkCamera, setBlinkCamera] = useState(null);
+    const cameras = useAtomValue(cameraAtom)
+    const blinkCamera = useAtomValue(blinkCameraAtom)
     useEffect(() => {
         /* fetch("/api/stream")
             .then((response) => response.json())
@@ -22,34 +23,6 @@ const VideoPlayer = () => {
         console.log(player);
     }, []);
 
-    useEffect(() => {
-        // Connect to the Socket.IO server
-        const socket = io();
-        socket.on('connect', () => {
-            console.log('Connected to server');
-        })
-
-        // Listen for 'camera-status' messages
-        socket.on("Camera-Status", (val) => {
-            console.log('socket', val);
-            setCameras(val);
-        });
-
-        socket.on('NVR-Alert', (val) => {
-            //check which camera value is true
-            for (const camera in val) {
-                if (val[camera]) {
-                    setBlinkCamera(camera);
-                    break; // Stop the loop as soon as a true value is found
-                }
-            }
-        })
-
-        // Cleanup on component unmount
-        return () => {
-            socket.disconnect();
-        };
-    }, []);
 
     console.log('cameras', cameras, blinkCamera)
 
@@ -64,10 +37,10 @@ const VideoPlayer = () => {
             </div>
             <div className="flex justify-center items-center mt-7">
                 <div className="relative">
-                    <div id="video-canvas" style={{ height: 600, width: 700 }}></div>
-                    {/* <video controls autoPlay style={{ height: 565, width: 1000 }}>
+                    <div id="video-canvas" className="hidden" style={{ height: 700, width: 1300 }}></div>
+                    <video controls autoPlay style={{ height: 565, width: 1000 }}>
                         <source src="/video.mp4" type="video/mp4" />
-                    </video> */}
+                    </video>
                     <div className="grid grid-cols-4 absolute top-0 w-full h-full">
                         {
                             Object.entries(cameras || {}).map(([key, _], index) => (

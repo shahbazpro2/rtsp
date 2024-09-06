@@ -42,3 +42,13 @@ body {
   @apply border-4 border-solid;
   animation: blink-border 0.5s infinite;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+.container {
+  @apply mx-auto px-4 max-w-7xl;
+}

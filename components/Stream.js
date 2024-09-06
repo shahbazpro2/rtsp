@@ -4,7 +4,7 @@ export async function StreamComp() {
   if (!global.stream) {
     global.stream = new Stream({
       name: "Bunny",
-      streamUrl: "rtsp://127.0.0.1:8554/stream1",
+      streamUrl: "rtsp://5.tcp.ngrok.io:25792/ds-test",
       wsPort: 6789,
       ffmpegOptions: {
         "-f": "mpegts",
