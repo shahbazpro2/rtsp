@@ -51,6 +51,7 @@ const DetectionHistory = ({ cameraId, date }) => {
                                     <AccordionContent key={index} className="mx-3 border border-gray-200 rounded-lg">
                                         <div className="bg-gray-200 px-3 py-2 rounded flex justify-between">
                                             <div className="">{frame?.objects?.toString()}</div>
+                                            <div>{frame?.Time}</div>
                                         </div>
                                         <div className="px-5 py-5">
                                             <Zoom>
