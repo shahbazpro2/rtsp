@@ -16,7 +16,7 @@ const page = () => {
     <div className="text-3xl mt-5 font-bold text-center container">
       <div className="flex flex-col items-center justify-center">
         <DynamicIconMapping setCameraData={setCameraData} cameraData={cameraData} />
-        {cameraData && <DetectionHistory cameraId={cameraData?.id} date={"2024-09-05"} />}
+        {cameraData && <DetectionHistory cameraId={cameraData?.id} date={currentDate} />}
       </div>
     </div>
   );
