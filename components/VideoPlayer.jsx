@@ -41,7 +41,7 @@ const VideoPlayer = () => {
                     {/* <video controls autoPlay style={{ height: 565, width: 1000 }}>
                         <source src="/video.mp4" type="video/mp4" />
                     </video> */}
-                    <div className="grid grid-cols-4 absolute top-0 w-full h-full">
+                    <div className="grid grid-cols-4 absolute top-0 w-full h-full z-[10000]">
                         {
                             Object.entries(cameras || {}).map(([key, _], index) => (
                                 <SingleCameraBox data={key} key={index} isBlinking={blinkCamera === key} />
