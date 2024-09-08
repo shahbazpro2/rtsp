@@ -55,7 +55,7 @@ const DetectionHistory = ({ cameraId, date }) => {
                                         </div>
                                         <div className="px-5 py-5">
                                             <Zoom>
-                                                <img src={frame?.image || "/Mockup.jpg"} alt="frame" className="size-24" />
+                                                <img src={frame?.Frame || "/Mockup.jpg"} alt="frame" className="size-24" />
                                             </Zoom>
                                         </div>
                                     </AccordionContent>
