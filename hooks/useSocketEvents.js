@@ -5,13 +5,13 @@ import { io } from "socket.io-client";
 const cameraAtom = atom(null);
 const blinkCameraAtom = atom(null);
 const wallboardStreamAtom = atom(null);
+const socket = io("http://localhost:8000");
 
 const useSocketEvents = () => {
   const setCameraAtom = useSetAtom(cameraAtom);
   const setBlinkCameraAtom = useSetAtom(blinkCameraAtom);
   const setWallboardStreamAtom = useSetAtom(wallboardStreamAtom);
   useEffect(() => {
-    const socket = io();
     socket.on("connect", () => {
       console.log("Connected to server");
     });
@@ -32,14 +32,14 @@ const useSocketEvents = () => {
     });
 
     socket.on("stream", (data) => {
-      console.log("stream", data);
+      //console.log("stream", data);
       setWallboardStreamAtom(data);
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [socket]);
 };
 
 export { cameraAtom, blinkCameraAtom, useSocketEvents, wallboardStreamAtom };

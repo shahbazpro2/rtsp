@@ -3,6 +3,7 @@ import { Server as SocketIOServer } from "socket.io";
 import { parse } from "url";
 import { Rabbitmq } from "./Rabbitmq.js";
 import { queues } from "./constant.js";
+import { StreamComp } from "./Stream.js";
 
 export let io;
 
@@ -26,6 +27,7 @@ const socketIo = (handle) => {
   io.on("connection", (socket) => {
     console.log("A client connected:", socket.id);
     Rabbitmq(currentQueueData, socket);
+    StreamComp(socket);
 
     socket.on("disconnect", () => {
       console.log("A client disconnected:", socket.id);

@@ -1,10 +1,10 @@
+import { Rabbitmq } from "@/Rabbitmq";
 import FeedbackWrapper from "@/components/FeedbackWrapper";
 import Header from "@/components/Header";
 import PreConfig from "@/components/PreConfig";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { StreamComp } from "@/components/Stream";
-import { Rabbitmq } from "@/Rabbitmq";
 
 const inter = Inter({ subsets: ["latin"] });
 
