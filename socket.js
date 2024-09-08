@@ -1,5 +1,5 @@
-import { Server as SocketIOServer } from "socket.io";
 import { createServer } from "http";
+import { Server as SocketIOServer } from "socket.io";
 import { parse } from "url";
 import { Rabbitmq } from "./Rabbitmq.js";
 import { queues } from "./constant.js";

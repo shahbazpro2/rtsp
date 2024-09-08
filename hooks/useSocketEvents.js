@@ -4,10 +4,12 @@ import { io } from "socket.io-client";
 
 const cameraAtom = atom(null);
 const blinkCameraAtom = atom(null);
+const wallboardStreamAtom = atom(null);
 
 const useSocketEvents = () => {
   const setCameraAtom = useSetAtom(cameraAtom);
   const setBlinkCameraAtom = useSetAtom(blinkCameraAtom);
+  const setWallboardStreamAtom = useSetAtom(wallboardStreamAtom);
   useEffect(() => {
     const socket = io();
     socket.on("connect", () => {
@@ -28,10 +30,15 @@ const useSocketEvents = () => {
       }
     });
 
+    socket.on("stream", (data) => {
+      console.log("stream", data);
+      setWallboardStreamAtom(data);
+    });
+
     return () => {
       socket.disconnect();
     };
   }, []);
 };
 
-export { cameraAtom, blinkCameraAtom, useSocketEvents };
+export { cameraAtom, blinkCameraAtom, useSocketEvents, wallboardStreamAtom };

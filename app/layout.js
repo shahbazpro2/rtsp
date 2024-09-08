@@ -1,9 +1,10 @@
+import FeedbackWrapper from "@/components/FeedbackWrapper";
 import Header from "@/components/Header";
-import { StreamComp } from "@/components/Stream";
+import PreConfig from "@/components/PreConfig";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import PreConfig from "@/components/PreConfig";
-import FeedbackWrapper from "@/components/FeedbackWrapper";
+import { StreamComp } from "@/components/Stream";
+import { Rabbitmq } from "@/Rabbitmq";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({ children }) {
         <PreConfig />
         <Header />
         {children}
-        {/*  <Rabbitmq /> */}
+        <Rabbitmq />
         <StreamComp />
       </body>
     </html>
