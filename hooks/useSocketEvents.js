@@ -1,20 +1,22 @@
+import { socket } from "@/lib/socket";
 import { atom, useSetAtom } from "jotai";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
 
 const cameraAtom = atom(null);
 const blinkCameraAtom = atom(null);
 const wallboardStreamAtom = atom(null);
-const socket = io("http://localhost:8000");
 
 const useSocketEvents = () => {
   const setCameraAtom = useSetAtom(cameraAtom);
   const setBlinkCameraAtom = useSetAtom(blinkCameraAtom);
   const setWallboardStreamAtom = useSetAtom(wallboardStreamAtom);
   useEffect(() => {
+    console.log("inside useSocket");
     socket.on("connect", () => {
       console.log("Connected to server");
     });
+
+    socket.emit("clientMessage", "test");
 
     socket.on("Camera-Status", (val) => {
       console.log("socket", val);
@@ -36,9 +38,9 @@ const useSocketEvents = () => {
       setWallboardStreamAtom(data);
     });
 
-    return () => {
+    /*  return () => {
       socket.disconnect();
-    };
+    }; */
   }, [socket]);
 };
 

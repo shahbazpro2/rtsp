@@ -20,8 +20,8 @@ export default function RootLayout({ children }) {
         <PreConfig />
         <Header />
         {children}
-        <Rabbitmq />
-        <StreamComp />
+        {/*    <Rabbitmq /> */}
+        {/*  <StreamComp /> */}
       </body>
     </html>
   );
