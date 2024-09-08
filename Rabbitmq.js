@@ -9,7 +9,7 @@ const queueFetch = async (channel, socket, currentQueueData, queue) => {
     channel.consume(queue, (msg) => {
       if (msg !== null) {
         const messageContent = JSON.parse(msg.content.toString());
-        console.log("Received message:", messageContent);
+        //console.log("Received message:", messageContent);
         currentQueueData[queue] = messageContent;
         socket.emit(queue, messageContent);
         channel.ack(msg);

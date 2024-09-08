@@ -22,6 +22,7 @@ const useSocketEvents = () => {
     });
 
     socket.on("NVR-Alert", (val) => {
+      console.log("val", val);
       for (const camera in val) {
         if (val[camera]) {
           setBlinkCameraAtom(camera);
