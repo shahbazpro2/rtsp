@@ -16,7 +16,7 @@ const useSocketEvents = () => {
       console.log("Connected to server");
     });
 
-    socket.emit("clientMessage", "test");
+    socket.emit("initialData", null);
 
     socket.on("Camera-Status", (val) => {
       console.log("socket", val);
@@ -25,7 +25,8 @@ const useSocketEvents = () => {
 
     socket.on("NVR-Alert", (val) => {
       console.log("val", val);
-      setCameraAtom(val);
+
+      // setCameraAtom(val);
       for (const camera in val) {
         if (val[camera]) {
           setBlinkCameraAtom(camera);

@@ -12,10 +12,10 @@ const VideoPlayer = () => {
     const cameras = useAtomValue(cameraAtom)
     const blinkCamera = useAtomValue(blinkCameraAtom)
     useEffect(() => {
-        /* fetch("/api/stream")
+        fetch("http://localhost:8000/stream")
             .then((response) => response.json())
             .then((data) => console.log('ddd', data.message))
-            .catch((error) => console.error("Error starting stream:", error)); */
+            .catch((error) => console.error("Error starting stream:", error));
         const videoUrl = `ws://${ffmpegIP}:6789/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
