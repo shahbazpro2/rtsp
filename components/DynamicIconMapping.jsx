@@ -8,6 +8,12 @@ import { Input } from './ui/input';
 import Loader from './ui/Loader';
 import { blinkCameraAtom } from '@/hooks/useSocketEvents';
 import { useAtomValue } from 'jotai';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
@@ -133,14 +139,27 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                         }}
                         onClick={onOpenDetail}
                     >
-                        <Camera className={`text-white ${blinkCamera?.[key] ? 'blinking-background' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
-                            id: key,
-                            x: val?.[0],
-                            y: val?.[1]
-                        })} />
-                        <div className='absolute -mt-11 ml-6' >
-                            <Trash2 className='fill-red-500 size-5' onClick={() => setDelKey(key)} />
-                        </div>
+                        <TooltipProvider>
+                            <Tooltip delayDuration={300}>
+                                <TooltipTrigger asChild>
+                                    <Camera className={`text-white ${blinkCamera?.[key] ? 'blinking-background' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
+                                        id: key,
+                                        x: val?.[0],
+                                        y: val?.[1]
+                                    })} />
+                                    <div className='absolute -mt-11 ml-6' >
+                                        <Trash2 className='fill-red-500 size-5' onClick={() => setDelKey(key)} />
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <div className='p-2'>
+                                        <div className='text-lg'>Camera ID: {key}</div>
+                                        <div className='text-lg'>Coordinates: {val?.[0]}, {val?.[1]}</div>
+                                    </div>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+
                     </div>
                 ))}
             </div>
