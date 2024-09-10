@@ -19,11 +19,12 @@ const useSocketEvents = () => {
     socket.emit("initialData", null);
 
     socket.on("Camera-Status", (val) => {
-      console.log("socket", val);
+      console.log("Camera-Status", val);
       setCameraAtom(val);
     });
 
     socket.on("NVR-Alert", (val) => {
+      console.log("NVR-Alert", val);
       setBlinkCameraAtom(val);
       // setCameraAtom(val);
       /*   for (const camera in val) {
