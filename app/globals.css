@@ -43,6 +43,11 @@ body {
   animation: blink-border 0.5s infinite;
 }
 
+.blinking-background {
+  @apply bg-gradient-to-r from-green-400 to-blue-500;
+  animation: blink-background 0.5s infinite;
+}
+
 @layer base {
   :root {
     --radius: 0.5rem;

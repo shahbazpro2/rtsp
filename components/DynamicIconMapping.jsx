@@ -6,6 +6,8 @@ import { useApi } from 'use-hook-api';
 import { addCameraApi, deleteCameraApi, getCameraCoordinatesApi } from '@/apis/camera';
 import { Input } from './ui/input';
 import Loader from './ui/Loader';
+import { blinkCameraAtom } from '@/hooks/useSocketEvents';
+import { useAtomValue } from 'jotai';
 
 const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
@@ -80,6 +82,7 @@ const DeleteCamera = ({ delKey, setDelKey }) => {
 
 const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
     const [, { data, loading }] = useApi({ cache: 'cameras' }, getCameraCoordinatesApi())
+    const blinkCamera = useAtomValue(blinkCameraAtom);
     const [popupOpen, setPopupOpen] = useState(null);
     const [delKey, setDelKey] = useState(null);
 
@@ -130,7 +133,7 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                         }}
                         onClick={onOpenDetail}
                     >
-                        <Camera className='text-white fill-blue-500 size-10' onClick={() => onSetCameraData({
+                        <Camera className={`text-white ${blinkCamera?.[key] ? 'blinking-background' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
                             id: key,
                             x: val?.[0],
                             y: val?.[1]
