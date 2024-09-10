@@ -41,8 +41,18 @@ const VideoPlayer = () => {
         const videoUrl = `ws://${ffmpegIP}:6789/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
-            onPlay: () => setLoading(false), // Set loading to false when video starts playing
         });
+
+        const interval = setInterval(() => {
+            if (player?.currentTime > 0) {
+                setLoading(false); // Hide loader when the video starts playing
+                clearInterval(interval); // Stop polling
+            }
+        }, 500); // Poll every 500ms
+
+        return () => {
+            clearInterval(interval);
+        }
 
     }, [cameras]);
 
