@@ -45,7 +45,7 @@ const VideoPlayer = () => {
         });
 
         return () => {
-            if (player) player.destroy(); // Clean up the player on unmount
+            if (player) player?.destroy(); // Clean up the player on unmount
         };
     }, [cameras]);
 
