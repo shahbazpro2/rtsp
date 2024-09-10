@@ -142,14 +142,17 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                         <TooltipProvider>
                             <Tooltip delayDuration={300}>
                                 <TooltipTrigger asChild>
-                                    <Camera className={`text-white ${blinkCamera?.[key] ? 'blinking-background' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
-                                        id: key,
-                                        x: val?.[0],
-                                        y: val?.[1]
-                                    })} />
-                                    <div className='absolute -mt-11 ml-6' >
-                                        <Trash2 className='fill-red-500 size-5' onClick={() => setDelKey(key)} />
-                                    </div>
+                                    <>
+                                        <Camera className={`text-white ${blinkCamera?.[key] ? 'blinking-background' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
+                                            id: key,
+                                            x: val?.[0],
+                                            y: val?.[1]
+                                        })} />
+                                        <div className='absolute -mt-11 ml-6' >
+                                            <Trash2 className='fill-red-500 size-5' onClick={() => setDelKey(key)} />
+                                        </div>
+
+                                    </>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <div className='p-2'>
