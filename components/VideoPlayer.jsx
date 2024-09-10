@@ -42,9 +42,8 @@ const VideoPlayer = () => {
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
         });
-
         const interval = setInterval(() => {
-            if (player?.currentTime > 0) {
+            if (player?.player?.currentTime > 0) {
                 setLoading(false); // Hide loader when the video starts playing
                 clearInterval(interval); // Stop polling
             }
