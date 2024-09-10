@@ -23,16 +23,19 @@ const VideoPlayer = () => {
         console.log(player);
     }, []);
 
-    const getGridCols = (cameraCount) => {
-        if (cameraCount === 1) return "grid-cols-1";
-        if (cameraCount === 2) return "grid-cols-2";
-        if (cameraCount <= 4) return "grid-cols-2";
-        if (cameraCount <= 6) return "grid-cols-3";
-        if (cameraCount <= 9) return "grid-cols-3";
-        return "grid-cols-4";
+    const getGridLayout = (cameraCount) => {
+        if (cameraCount === 1) return { cols: 1, rows: 1 };
+        if (cameraCount === 2) return { cols: 2, rows: 1 };
+        if (cameraCount <= 4) return { cols: 2, rows: Math.ceil(cameraCount / 2) };
+        if (cameraCount <= 6) return { cols: 3, rows: Math.ceil(cameraCount / 3) };
+        if (cameraCount <= 9) return { cols: 3, rows: Math.ceil(cameraCount / 3) };
+        return { cols: 4, rows: Math.ceil(cameraCount / 4) };
     };
 
     const cameraCount = Object.keys(cameras || {}).length;
+    const { rows } = getGridLayout(cameraCount);
+    const parentHeight = 565; // Parent container height
+    const boxHeight = parentHeight / rows; // Calculate height for each box
 
 
     console.log('cameras', cameras, blinkCamera)
@@ -58,6 +61,7 @@ const VideoPlayer = () => {
                                 data={key}
                                 key={index}
                                 isBlinking={blinkCamera === key}
+                                boxHeight={boxHeight} // Pass the calculated height to SingleCameraBox
                             />
                         ))}
                     </div>
