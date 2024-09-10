@@ -2,8 +2,9 @@
 import { blinkCameraAtom, cameraAtom } from "@/hooks/useSocketEvents";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
 import { useAtomValue } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SingleCameraBox from "./SingleCameraBox";
+import Loader from "./ui/Loader";
 const ffmpegIP = "localhost";
 
 const getGridCols = (cameraCount) => {
@@ -25,32 +26,33 @@ const getGridLayout = (cameraCount) => {
 };
 
 const VideoPlayer = () => {
-    const cameras = useAtomValue(cameraAtom)
-    const blinkCamera = useAtomValue(blinkCameraAtom)
+    const cameras = useAtomValue(cameraAtom);
+    const blinkCamera = useAtomValue(blinkCameraAtom);
+    const [loading, setLoading] = useState(true); // State to track loading status
+
     useEffect(() => {
         if (!cameras || Object.keys(cameras).length === 0) {
             fetch("http://localhost:8000/stream")
                 .then((response) => response.json())
-                .then((data) => console.log('ddd', data.message))
+                .then((data) => console.log('Stream started:', data.message))
                 .catch((error) => console.error("Error starting stream:", error));
         }
+
         const videoUrl = `ws://${ffmpegIP}:6789/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
+            onPlay: () => setLoading(false), // Set loading to false when video starts playing
         });
-        console.log(player);
-    }, []);
 
-
+        return () => {
+            if (player) player.destroy(); // Clean up the player on unmount
+        };
+    }, [cameras]);
 
     const cameraCount = Object.keys(cameras || {}).length;
     const { rows } = getGridLayout(cameraCount);
-    const parentHeight = 565; // Parent container height
-    const boxHeight = parentHeight / rows; // Calculate height for each box
-
-
-    console.log('cameras', cameras, blinkCamera)
-
+    const parentHeight = 565;
+    const boxHeight = parentHeight / rows;
 
     return (
         <div id="body">
@@ -62,22 +64,24 @@ const VideoPlayer = () => {
             </div>
             <div className="flex justify-center items-center mt-7">
                 <div className="relative">
+                    {/* Show Loader if the video is loading */}
+                    {loading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[20000]">
+                            <Loader />
+                        </div>
+                    )}
                     <div id="video-canvas" style={{ height: 565, width: 1000 }}></div>
-                    {/* <video controls autoPlay style={{ height: 565, width: 1000 }}>
-                        <source src="/video.mp4" type="video/mp4" />
-                    </video> */}
                     <div className={`grid absolute top-0 w-full h-full z-[10000] ${getGridCols(cameraCount)}`}>
                         {Object.entries(cameras || {}).map(([key, _], index) => (
                             <SingleCameraBox
                                 data={key}
                                 key={index}
                                 isBlinking={blinkCamera === key}
-                                boxHeight={boxHeight} // Pass the calculated height to SingleCameraBox
+                                boxHeight={boxHeight}
                             />
                         ))}
                     </div>
                 </div>
-
             </div>
         </div>
     );
