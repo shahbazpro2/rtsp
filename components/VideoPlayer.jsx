@@ -23,6 +23,17 @@ const VideoPlayer = () => {
         console.log(player);
     }, []);
 
+    const getGridCols = (cameraCount) => {
+        if (cameraCount === 1) return "grid-cols-1";
+        if (cameraCount === 2) return "grid-cols-2";
+        if (cameraCount <= 4) return "grid-cols-2";
+        if (cameraCount <= 6) return "grid-cols-3";
+        if (cameraCount <= 9) return "grid-cols-3";
+        return "grid-cols-4";
+    };
+
+    const cameraCount = Object.keys(cameras || {}).length;
+
 
     console.log('cameras', cameras, blinkCamera)
 
@@ -41,12 +52,14 @@ const VideoPlayer = () => {
                     {/* <video controls autoPlay style={{ height: 565, width: 1000 }}>
                         <source src="/video.mp4" type="video/mp4" />
                     </video> */}
-                    <div className="grid grid-cols-4 absolute top-0 w-full h-full z-[10000]">
-                        {
-                            Object.entries(cameras || {}).map(([key, _], index) => (
-                                <SingleCameraBox data={key} key={index} isBlinking={blinkCamera === key} />
-                            ))
-                        }
+                    <div className={`grid absolute top-0 w-full h-full z-[10000] ${getGridCols(cameraCount)}`}>
+                        {Object.entries(cameras || {}).map(([key, _], index) => (
+                            <SingleCameraBox
+                                data={key}
+                                key={index}
+                                isBlinking={blinkCamera === key}
+                            />
+                        ))}
                     </div>
                 </div>
 
