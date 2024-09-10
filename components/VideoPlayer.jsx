@@ -44,9 +44,6 @@ const VideoPlayer = () => {
             onPlay: () => setLoading(false), // Set loading to false when video starts playing
         });
 
-        return () => {
-            if (player) player?.destroy(); // Clean up the player on unmount
-        };
     }, [cameras]);
 
     const cameraCount = Object.keys(cameras || {}).length;
