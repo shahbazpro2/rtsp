@@ -24,15 +24,14 @@ const useSocketEvents = () => {
     });
 
     socket.on("NVR-Alert", (val) => {
-      console.log("val", val);
-
+      setBlinkCameraAtom(val);
       // setCameraAtom(val);
-      for (const camera in val) {
+      /*   for (const camera in val) {
         if (val[camera]) {
           setBlinkCameraAtom(camera);
           break;
         }
-      }
+      } */
     });
 
     socket.on("stream", (data) => {

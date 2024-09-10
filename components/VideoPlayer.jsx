@@ -82,7 +82,7 @@ const VideoPlayer = () => {
                             <SingleCameraBox
                                 data={key}
                                 key={index}
-                                isBlinking={blinkCamera === key && !loading}
+                                isBlinking={blinkCamera?.[key] && !loading}
                                 boxHeight={boxHeight}
                             />
                         ))}
