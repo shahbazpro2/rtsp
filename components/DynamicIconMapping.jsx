@@ -139,30 +139,29 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                         }}
                         onClick={onOpenDetail}
                     >
-                        <TooltipProvider>
-                            <Tooltip delayDuration={300}>
-                                <TooltipTrigger asChild>
-                                    <>
+                        <div className='relative'>
+                            <TooltipProvider>
+                                <Tooltip delayDuration={100}>
+                                    <TooltipTrigger asChild>
                                         <Camera className={`text-white ${blinkCamera?.[key] ? 'fill-green-400 animate-blink' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
                                             id: key,
                                             x: val?.[0],
                                             y: val?.[1]
                                         })} />
-                                        <div className='absolute -mt-11 ml-6' >
+
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <div className='absolute bottom-1 right-1 ml-6' >
                                             <Trash2 className='fill-red-500 size-5' onClick={() => setDelKey(key)} />
                                         </div>
-
-                                    </>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <div className='p-2'>
-                                        <div className='text-lg'>Camera ID: {key}</div>
-                                        <div className='text-lg'>Coordinates: {val?.[0]}, {val?.[1]}</div>
-                                    </div>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-
+                                        <div className='p-2 text-base grid grid-cols-2 text-left gap-1'>
+                                            <div >Camera ID:</div> <div className='text-lg ml-2'>{key}</div>
+                                            <div>Coordinates:</div>  <div className='text-lg ml-2'>{val?.[0]}, {val?.[1]}</div>
+                                        </div>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
                     </div>
                 ))}
             </div>
