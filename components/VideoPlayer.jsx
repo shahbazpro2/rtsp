@@ -69,7 +69,7 @@ const VideoPlayer = () => {
     const tilerColumns = Math.ceil(cameraCount / tilerRows);
     const gridColsClass = getGridColsClass(tilerColumns);
     const parentHeight = 565;
-    const boxHeight = parentHeight / rows;
+    const boxHeight = parentHeight / tilerRows;
 
     return (
         <div id="body">
