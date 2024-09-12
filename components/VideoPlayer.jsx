@@ -27,10 +27,7 @@ const getGridLayout = (cameraCount) => {
     return { cols: 4, rows: Math.ceil(cameraCount / 4) };
 };
 
-function getGridColsClass(numberSources) {
-    const tilerRows = Math.floor(Math.sqrt(numberSources));
-    const tilerColumns = Math.ceil(numberSources / tilerRows);
-
+function getGridColsClass(tilerColumns) {
     return `grid-cols-${tilerColumns}`;
 }
 
@@ -65,7 +62,9 @@ const VideoPlayer = () => {
     }, [cameras]);
 
     const cameraCount = Object.keys(cameras || {}).length;
-    const gridColsClass = getGridColsClass(cameraCount);
+    const tilerRows = Math.floor(Math.sqrt(cameraCount));
+    const tilerColumns = Math.ceil(cameraCount / tilerRows);
+    const gridColsClass = getGridColsClass(tilerColumns);
     const parentHeight = 565;
     const boxHeight = parentHeight / tilerRows;
 
