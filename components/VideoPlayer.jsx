@@ -65,9 +65,7 @@ const VideoPlayer = () => {
     }, [cameras]);
 
     const cameraCount = Object.keys(cameras || {}).length;
-    const tilerRows = Math.floor(Math.sqrt(cameraCount));
-    const tilerColumns = Math.ceil(cameraCount / tilerRows);
-    const gridColsClass = getGridColsClass(tilerColumns);
+    const gridColsClass = getGridColsClass(cameraCount);
     const parentHeight = 565;
     const boxHeight = parentHeight / tilerRows;
 
