@@ -27,6 +27,13 @@ const getGridLayout = (cameraCount) => {
     return { cols: 4, rows: Math.ceil(cameraCount / 4) };
 };
 
+function getGridColsClass(numberSources) {
+    const tilerRows = Math.floor(Math.sqrt(numberSources));
+    const tilerColumns = Math.ceil(numberSources / tilerRows);
+
+    return `grid-cols-${tilerColumns}`;
+}
+
 const VideoPlayer = () => {
     const cameras = useAtomValue(cameraAtom);
     const blinkCamera = useAtomValue(blinkCameraAtom);
@@ -58,7 +65,9 @@ const VideoPlayer = () => {
     }, [cameras]);
 
     const cameraCount = Object.keys(cameras || {}).length;
-    const { rows } = getGridLayout(cameraCount);
+    const tilerRows = Math.floor(Math.sqrt(cameraCount));
+    const tilerColumns = Math.ceil(cameraCount / tilerRows);
+    const gridColsClass = getGridColsClass(tilerColumns);
     const parentHeight = 565;
     const boxHeight = parentHeight / rows;
 
@@ -79,7 +88,7 @@ const VideoPlayer = () => {
                         </div>
                     )}
                     <div id="video-canvas" style={{ height: 565, width: 1000 }}></div>
-                    <div className={`grid absolute top-0 w-full h-full z-[10000] ${getGridCols(cameraCount)}`}>
+                    <div className={`grid absolute top-0 w-full h-full z-[10000] ${gridColsClass}`}>
                         {Object.entries(cameras || {}).map(([key, _], index) => (
                             <SingleCameraBox
                                 data={key}
