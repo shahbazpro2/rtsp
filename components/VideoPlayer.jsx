@@ -22,6 +22,7 @@ const getGridLayout = (cameraCount) => {
     if (cameraCount <= 4) return { cols: 2, rows: Math.ceil(cameraCount / 2) };
     if (cameraCount <= 6) return { cols: 3, rows: Math.ceil(cameraCount / 3) };
     if (cameraCount <= 9) return { cols: 3, rows: Math.ceil(cameraCount / 3) };
+    if (cameraCount >= 15) return { cols: 5, rows: Math.ceil(cameraCount / 5) };
     return { cols: 4, rows: Math.ceil(cameraCount / 4) };
 };
 
