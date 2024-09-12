@@ -14,7 +14,7 @@ const page = () => {
   return (
     <>
       <div className="flex justify-center items-center mt-7">
-        <div className="relative">
+        <div className="relative" id="container">
           <SingleRtsp id={params?.id} />
           <DetectionHistory cameraId={params.id} date={currentDate} />
         </div>

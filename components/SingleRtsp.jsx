@@ -2,9 +2,12 @@ import JSMpeg from '@cycjimmy/jsmpeg-player';
 import React, { useEffect } from 'react'
 
 const SingleRtsp = ({ id }) => {
+    const [width, setWidth] = React.useState(0);
 
     useEffect(() => {
         if (!id) return;
+        const container = document.getElementById("container");
+        setWidth(container.offsetWidth);
         fetch(`http://localhost:8000/stream/${id}`)
             .then((response) => response.json())
             .then((data) => console.log("ddd", data.message))
@@ -18,7 +21,7 @@ const SingleRtsp = ({ id }) => {
 
     return (
         <div>
-            <div id="video-canvas" style={{ height: 565, width: 1000 }}></div>
+            <div id="video-canvas" style={{ height: 300, width: width }}></div>
         </div>
     )
 }

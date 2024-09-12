@@ -16,7 +16,7 @@ const page = () => {
   return (
     <div className="mt-5 font-bold text-center container">
       <div className="grid grid-cols-3 gap-5">
-        <div>
+        <div id="container">
           <div className="mb-10">
             <Select onValueChange={(val) => setSelectedCamera(val)}>
               <SelectTrigger className="w-[180px]">
