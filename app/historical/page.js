@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useAtomValue } from "jotai";
 import { cameraAtom } from "@/hooks/useSocketEvents";
 import moment from "moment";
+import SingleRtsp from "@/components/SingleRtsp";
 
 const page = () => {
   const cameraAtomVal = useAtomValue(cameraAtom);
