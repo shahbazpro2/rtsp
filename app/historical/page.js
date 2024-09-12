@@ -16,11 +16,16 @@ const page = () => {
   console.log("vallll", value, selectedCamera);
   return (
     <div className="mt-5 font-bold text-center container">
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-3 gap-5 mb-10">
+        {selectedCamera && (
+          <div className="col-span-3 flex justify-center">
+            <SingleRtsp id={selectedCamera} />
+          </div>
+        )}
         <div id="container">
-          <div className="mb-10">
+          <div className="mb-4">
             <Select onValueChange={(val) => setSelectedCamera(val)}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[350px]">
                 <SelectValue placeholder="Select a Camera" />
               </SelectTrigger>
               <SelectContent>
@@ -32,7 +37,7 @@ const page = () => {
               </SelectContent>
             </Select>
           </div>
-          {selectedCamera && <SingleRtsp id={selectedCamera} />}
+
           <Calendar onChange={onChange} value={value} activeStartDate={value} />
         </div>
         <div className="col-span-2">
