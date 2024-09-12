@@ -31,6 +31,7 @@ const page = () => {
               </SelectContent>
             </Select>
           </div>
+          {selectedCamera && <SingleRtsp id={selectedCamera} />}
           <Calendar onChange={onChange} value={value} activeStartDate={value} />
         </div>
         <div className="col-span-2">
