@@ -9,7 +9,7 @@ import { cameraAtom } from "@/hooks/useSocketEvents";
 import moment from "moment";
 import SingleRtsp from "@/components/SingleRtsp";
 
-const page = () => {
+const Historical = () => {
   const cameraAtomVal = useAtomValue(cameraAtom);
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [value, onChange] = useState(new Date());
@@ -30,7 +30,9 @@ const page = () => {
               <SelectContent>
                 <SelectGroup>
                   {Object.keys(cameraAtomVal || {})?.map((camera) => (
-                    <SelectItem value={camera}>{camera}</SelectItem>
+                    <SelectItem key={camera} value={camera}>
+                      {camera}
+                    </SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
@@ -47,4 +49,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Historical;

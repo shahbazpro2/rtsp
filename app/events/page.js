@@ -9,7 +9,7 @@ import SingleRtsp from "@/components/SingleRtsp";
 
 const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
 
-const page = () => {
+const Events = () => {
   const [width, setWidth] = React.useState(0);
   const cameraAtomVal = useAtomValue(cameraAtom);
   const [cameraData, setCameraData] = React.useState(null);
@@ -25,4 +25,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Events;

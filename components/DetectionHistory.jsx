@@ -21,6 +21,7 @@ const DetectionHistory = ({ cameraId, date }) => {
         formData.append("event_day", date);
         callApi(getEventsListApi(formData));
     }, [cameraId, date]);
+
     return (
         <div className="text-xl font-bold container mx-auto py-10">
             <div className="text-2xl font-bold mb-3">Detection History</div>

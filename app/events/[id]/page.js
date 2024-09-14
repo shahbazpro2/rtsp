@@ -7,7 +7,7 @@ import moment from "moment-timezone";
 
 const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
 
-const page = () => {
+const Event = () => {
   const params = useParams();
 
   return (
@@ -22,4 +22,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Event;
