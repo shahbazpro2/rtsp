@@ -21,7 +21,6 @@ export async function StreamComp() {
   });
 
   /* stream.on("camdata", (data) => {
-    console.log("ddd", typeof data);
     socket.emit("stream", data);
   }); */
 

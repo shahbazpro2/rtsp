@@ -9,7 +9,9 @@ const SingleRtsp = ({ id }) => {
         if (!id) return;
         fetch(`http://localhost:8000/stream/${id}`)
             .then((response) => response.json())
-            .then((data) => console.log("ddd", data.message))
+            .then((data) => {
+
+            })
             .catch((error) => console.error("Error starting stream:", error));
         const videoUrl = `ws://localhost:6790/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {

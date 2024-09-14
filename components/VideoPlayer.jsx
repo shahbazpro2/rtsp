@@ -40,7 +40,9 @@ const VideoPlayer = () => {
         if (!cameras || Object.keys(cameras).length === 0) {
             fetch("http://localhost:8000/stream")
                 .then((response) => response.json())
-                .then((data) => console.log('Stream started:', data.message))
+                .then((data) => {
+
+                })
                 .catch((error) => console.error("Error starting stream:", error));
         }
 

@@ -9,7 +9,6 @@ const queueFetch = async (channel, socket, currentQueueData, queue) => {
     channel.consume(queue, (msg) => {
       if (msg !== null) {
         const messageContent = JSON.parse(msg.content.toString());
-        //console.log("Received message:", messageContent);
         currentQueueData[queue] = messageContent;
         socket.emit(queue, messageContent);
         channel.ack(msg);
@@ -22,7 +21,6 @@ const queueFetch = async (channel, socket, currentQueueData, queue) => {
 
 export async function Rabbitmq(currentQueueData, socket) {
   try {
-    console.log("reached");
     /*     const connection = await amqp.connect("amqp://NVR:NVR@localhost:5672"); */
     /* socket.emit("NVR-Alert", { "Camera 14": false, "camera x": false, "Camera 15": true, "Camera 16": false, "Camera 5": false, "Camera 9": false, "Camera 11": false, "Camera 12": false });
     socket.emit("Camera-Status", {

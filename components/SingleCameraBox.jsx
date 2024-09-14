@@ -45,12 +45,10 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
   }, [isBlinking])
 
   const onMovementBlock = (e) => {
-    console.log('onMovement')
     setIsDisabledMovement(true);
   }
 
   const onClickCamera = (e) => {
-    console.log('double click');
     router.push(`/events/${data}`);
   }
 

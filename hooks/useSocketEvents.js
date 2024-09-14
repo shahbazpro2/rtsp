@@ -11,20 +11,15 @@ const useSocketEvents = () => {
   const setBlinkCameraAtom = useSetAtom(blinkCameraAtom);
   const setWallboardStreamAtom = useSetAtom(wallboardStreamAtom);
   useEffect(() => {
-    console.log("inside useSocket");
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
+    socket.on("connect", () => {});
 
     socket.emit("initialData", null);
 
     socket.on("Camera-Status", (val) => {
-      console.log("Camera-Status", val);
       setCameraAtom(val);
     });
 
     socket.on("NVR-Alert", (val) => {
-      console.log("NVR-Alert", val);
       setBlinkCameraAtom(val);
       // setCameraAtom(val);
       /*   for (const camera in val) {
@@ -36,7 +31,6 @@ const useSocketEvents = () => {
     });
 
     socket.on("stream", (data) => {
-      //console.log("stream", data);
       setWallboardStreamAtom(data);
     });
 

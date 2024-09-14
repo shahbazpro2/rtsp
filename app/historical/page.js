@@ -13,7 +13,6 @@ const page = () => {
   const cameraAtomVal = useAtomValue(cameraAtom);
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [value, onChange] = useState(new Date());
-  console.log("vallll", value, selectedCamera);
   return (
     <div className="mt-5 font-bold text-center container">
       <div className="grid grid-cols-3 gap-5 mb-10">

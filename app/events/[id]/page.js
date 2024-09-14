@@ -6,7 +6,6 @@ import "react-medium-image-zoom/dist/styles.css";
 import moment from "moment-timezone";
 
 const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
-console.log(currentDate);
 
 const page = () => {
   const params = useParams();

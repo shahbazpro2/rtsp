@@ -8,14 +8,11 @@ import moment from "moment-timezone";
 import SingleRtsp from "@/components/SingleRtsp";
 
 const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
-console.log(currentDate);
 
 const page = () => {
   const [width, setWidth] = React.useState(0);
   const cameraAtomVal = useAtomValue(cameraAtom);
   const [cameraData, setCameraData] = React.useState(null);
-
-  console.log("cameraAtomVal", cameraAtomVal);
 
   return (
     <div className="text-3xl mt-5 font-bold text-center container">

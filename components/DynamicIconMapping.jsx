@@ -19,7 +19,6 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
     const [, { refetch }] = useApi({ cache: 'cameras' })
     const [cameraInput, setCameraInput] = useState('')
-    console.log('popupOpen', popupOpen)
     const handleConfirm = () => {
         const formData = new FormData()
         formData.append('x', popupOpen.x)
