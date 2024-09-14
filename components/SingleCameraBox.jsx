@@ -57,7 +57,7 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
 
   return (
     <div
-      className={` ${(startBlinking && !isDisabledMovement) ? `${blinkingEffect ? 'blinking-border' : 'border-[rgb(0, 255, 0)]'} border-4 border-solid` : ''} cursor-pointer`}
+      className={` ${(startBlinking && !isDisabledMovement) ? `${blinkingEffect ? 'blinking-border' : 'border-[#00FF00]'} border-4 border-solid` : ''} cursor-pointer`}
       style={{ height: boxHeight }}
       onClick={onMovementBlock}
       onDoubleClick={onClickCamera}
