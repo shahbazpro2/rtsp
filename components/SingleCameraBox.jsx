@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
   const [isDisabledMovement, setIsDisabledMovement] = React.useState(false);
   const [startBlinking, setStartBlinking] = React.useState(false);
+  const [blinkingEffect, setBlinkingEffect] = React.useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,6 +31,19 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
     }
   }, [isBlinking]);
 
+  useEffect(() => {
+    let interval = null;
+    if (!isBlinking) return clearInterval(interval);
+    interval = setInterval(() => {
+      setBlinkingEffect((prev) => !prev);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    }
+
+  }, [isBlinking])
+
   const onMovementBlock = (e) => {
     console.log('onMovement')
     setIsDisabledMovement(true);
@@ -43,7 +57,7 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
 
   return (
     <div
-      className={` ${(startBlinking && !isDisabledMovement) ? 'blinking-border' : ''} cursor-pointer`}
+      className={` ${(startBlinking && !isDisabledMovement) ? `${blinkingEffect ? 'blinking-border' : 'border-[rgb(0, 255, 0)]'} border-4 border-solid` : ''} cursor-pointer`}
       style={{ height: boxHeight }}
       onClick={onMovementBlock}
       onDoubleClick={onClickCamera}
