@@ -11,11 +11,12 @@ const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
 
 const Event = () => {
   const params = useParams();
+  const id = params?.id?.replaceAll("%", " ");
   const [cameraData, setCameraData] = useState(null);
 
   useEffect(() => {
-    setCameraData({ id: params.id });
-  }, [params.id]);
+    setCameraData({ id });
+  }, [id]);
 
   return (
     <>
@@ -23,8 +24,8 @@ const Event = () => {
         <div className="relative" id="container">
           <DynamicIconMapping setCameraData={setCameraData} cameraData={cameraData} />
           <div className="text-2xl my-3 text-center font-bold">{cameraData?.id}</div>
-          <SingleRtsp id={params?.id} />
-          <DetectionHistory cameraId={params.id} date={currentDate} />
+          <SingleRtsp id={id} />
+          <DetectionHistory cameraId={id} date={currentDate} />
         </div>
       </div>
     </>
