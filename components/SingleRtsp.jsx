@@ -24,7 +24,7 @@ const SingleRtsp = ({ id }) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (player?.player?.currentTime > 0) {
+            if (player?.player?.startTime > 0) {
                 setLoading(false);
                 clearInterval(interval);
             }
