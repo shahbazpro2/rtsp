@@ -2,16 +2,12 @@
 import { getEventsListApi } from "@/apis/events";
 import Loader from "@/components/ui/Loader";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { useApi } from "use-hook-api";
-//2024-08-05
-const currentDate = new Date().toISOString().split("T")[0];
 
 const DetectionHistory = ({ cameraId, date }) => {
-    const params = useParams();
     const [callApi, { data, loading }] = useApi({});
 
     useEffect(() => {
@@ -25,12 +21,10 @@ const DetectionHistory = ({ cameraId, date }) => {
     return (
         <div className="text-xl font-bold container mx-auto py-10">
             <div className="text-2xl font-bold mb-3">Detection History</div>
-
             {
                 !data?.length && !loading && (
                     <div className="text-center font-normal">No data found</div>
                 )
-
             }
             {loading ? (
                 <div className="flex justify-center items-center">

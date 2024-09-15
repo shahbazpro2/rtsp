@@ -11,3 +11,7 @@ export const deleteCameraApi = (payload) => {
 export const getCameraCoordinatesApi = () => {
   return responseApi("/get_camera_coordinates", "post");
 };
+
+export const getAllCamerasConfigApi = () => {
+  return responseApi("/get_camera_config", "get");
+};

@@ -91,9 +91,6 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
     const [popupOpen, setPopupOpen] = useState(null);
     const [delKey, setDelKey] = useState(null);
 
-
-
-
     const handleDivClick = (event) => {
         const div = event.target.getBoundingClientRect();
         const x = event.clientX - div.left;
@@ -114,10 +111,15 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
         setCameraData(data)
     }
 
+    const onDelCamera = (e, key) => {
+        e.stopPropagation()
+        setDelKey(key)
+    }
+
     return (
         <>
             <div
-                className="relative w-[700px] h-[500px] border border-gray-300"
+                className="relative w-[1000px] h-[500px] border border-gray-300"
                 onClick={handleDivClick}
                 style={{ cursor: 'crosshair', backgroundImage: 'url("/map1.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
@@ -128,19 +130,20 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                     </div>
                 }
                 {Object.entries(data || {})?.map(([key, val], index) => (
-                    <div
-                        key={index}
-                        className="absolute cursor-pointer"
-                        style={{
-                            left: `${val?.[0]}px`,
-                            top: `${val?.[1]}px`,
-                            transform: 'translate(-50%, -50%)',
-                        }}
-                        onClick={onOpenDetail}
-                    >
-                        <div className='relative'>
-                            <TooltipProvider>
-                                <Tooltip delayDuration={100}>
+                    <TooltipProvider key={index}>
+                        <Tooltip delayDuration={100} >
+                            <div
+
+                                className="absolute cursor-pointer -z-0"
+                                style={{
+                                    left: `${val?.[0]}px`,
+                                    top: `${val?.[1]}px`,
+                                    transform: 'translate(-50%, -50%)',
+                                }}
+                                onClick={onOpenDetail}
+                            >
+                                <div className='relative'>
+
                                     <TooltipTrigger asChild>
                                         <Camera className={`text-white ${blinkCamera?.[key] ? 'fill-green-400 animate-blink' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
                                             id: key,
@@ -149,19 +152,24 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                                         })} />
 
                                     </TooltipTrigger>
-                                    <TooltipContent>
-                                        <div className='absolute bottom-1 right-1 ml-6' >
-                                            <Trash2 className='fill-red-500 size-5' onClick={() => setDelKey(key)} />
-                                        </div>
-                                        <div className='p-2 text-base grid grid-cols-2 text-left gap-1'>
-                                            <div >Camera ID:</div> <div className='text-lg ml-2'>{key}</div>
-                                            <div>Coordinates:</div>  <div className='text-lg ml-2'>{val?.[0]}, {val?.[1]}</div>
-                                        </div>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </div>
-                    </div>
+
+
+                                    <div className="absolute -top-2 -left-2 text-xs w-[70px] font-bold">
+                                        {key}
+                                    </div>
+                                </div>
+                            </div>
+                            <TooltipContent className="z-50 cursor-default" onClick={e => e.stopPropagation()}>
+                                <div className='absolute bottom-1 right-1 ml-6' >
+                                    <Trash2 className='fill-red-500 size-5 cursor-pointer' onClick={(e) => onDelCamera(e, key)} />
+                                </div>
+                                <div className='p-2 text-base grid grid-cols-2 text-left gap-1'>
+                                    <div >Camera ID:</div> <div className='text-lg ml-2 font-bold'>{key}</div>
+                                    <div>Coordinates:</div>  <div className='text-lg ml-2 font-bold'>{val?.[0]}, {val?.[1]}</div>
+                                </div>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                 ))}
             </div>
             {popupOpen && (

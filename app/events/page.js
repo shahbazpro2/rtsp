@@ -15,9 +15,10 @@ const Events = () => {
   const [cameraData, setCameraData] = React.useState(null);
 
   return (
-    <div className="text-3xl mt-5 font-bold text-center container">
+    <div className="text-3xl mt-5 text-center container">
       <div className="flex flex-col items-center justify-center" id="container">
         <DynamicIconMapping setCameraData={setCameraData} cameraData={cameraData} />
+        <div className="text-2xl mt-3">{cameraData?.id}</div>
         <div className="my-3">{cameraData && <SingleRtsp id={cameraData?.id} />}</div>
         {cameraData && <DetectionHistory cameraId={cameraData?.id} date={currentDate} />}
       </div>
