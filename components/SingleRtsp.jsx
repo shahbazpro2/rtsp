@@ -4,6 +4,7 @@ import Loader from './ui/Loader';
 
 const SingleRtsp = ({ id }) => {
     const [loading, setLoading] = useState(true);
+    const [player, setPlayer] = useState(null);
 
     useEffect(() => {
         if (!id) return;
@@ -17,17 +18,22 @@ const SingleRtsp = ({ id }) => {
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
         });
+        setPlayer(player);
+
+    }, [id]);
+
+    useEffect(() => {
         const interval = setInterval(() => {
             if (player?.player?.currentTime > 0) {
-                setLoading(false); // Hide loader when the video starts playing
-                clearInterval(interval); // Stop polling
+                setLoading(false);
+                clearInterval(interval);
             }
-        }, 500); // Poll every 500ms
+        }, 500);
 
         return () => {
             clearInterval(interval);
         }
-    }, [id]);
+    }, [player]);
 
     return (
         <div className='relative'>
