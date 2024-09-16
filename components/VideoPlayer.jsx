@@ -88,13 +88,20 @@ const VideoPlayer = () => {
                     )}
                     <div id="video-canvas" style={{ height: 565, width: 1000 }}></div>
                     <div className={`grid absolute top-0 w-full h-full z-[10000] ${gridColsClass}`}>
+
                         {Object.entries(cameras || {}).map(([key, _], index) => (
-                            <SingleCameraBox
-                                data={key}
-                                key={index}
-                                isBlinking={blinkCamera?.[key] && !loading}
-                                boxHeight={boxHeight}
-                            />
+                            <div key={index} className="relative">
+                                <SingleCameraBox
+                                    data={key}
+
+                                    isBlinking={blinkCamera?.[key] && !loading}
+                                    boxHeight={boxHeight}
+                                />
+                                <div className="absolute bottom-0 right-0 z-50 text-white text-xs font-bold bg-black/50 px-2 rounded">
+                                    {key}
+                                </div>
+
+                            </div>
                         ))}
                     </div>
                 </div>

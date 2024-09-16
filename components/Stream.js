@@ -3,7 +3,7 @@ import Stream from "node-rtsp-stream";
 export async function StreamComp() {
   const stream = new Stream({
     name: "Bunny",
-    streamUrl: "rtsp://admin:zxcvbnm0.@190.92.4.249:554/cam/realmonitor?channel=1&subtype=0",
+    streamUrl: "rtsp://127.0.0.1:8554/ds-test",
     wsPort: 6789,
     /*  ffmpegOptions: {
       "-f": "mpegts",

@@ -14,6 +14,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useParams, useRouter } from 'next/navigation';
 
 const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
@@ -90,6 +91,8 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
     const blinkCamera = useAtomValue(blinkCameraAtom);
     const [popupOpen, setPopupOpen] = useState(null);
     const [delKey, setDelKey] = useState(null);
+    const params = useParams()
+    const router = useRouter()
 
     const handleDivClick = (event) => {
         const div = event.target.getBoundingClientRect();
@@ -107,6 +110,11 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
         if (cameraData?.id === data.id) {
             return setCameraData(null)
         }
+
+        if (params?.id) {
+            router.push(`/events/${data?.id}`)
+        }
+
 
         setCameraData(data)
     }

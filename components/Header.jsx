@@ -6,7 +6,7 @@ const Header = () => {
         <header className="bg-black/95 p-4">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo */}
-                <Link href="/" className="text-white font-bold text-xl">Rtsp Detector</Link>
+                <Link href="/" className="text-white font-bold text-xl">NVR MVP</Link>
 
                 {/* Navigation Links */}
                 <nav className="flex space-x-8">

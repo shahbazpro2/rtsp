@@ -8,6 +8,7 @@ const SingleRtsp = ({ id }) => {
 
     useEffect(() => {
         if (!id) return;
+        setLoading(true)
         fetch(`http://localhost:8000/stream/${id}`)
             .then((response) => response.json())
             .then((data) => {
@@ -20,9 +21,14 @@ const SingleRtsp = ({ id }) => {
         });
         setPlayer(player);
 
+        return () => {
+            setPlayer(null)
+        }
+
     }, [id]);
 
     useEffect(() => {
+        console.log('player', player)
         const interval = setInterval(() => {
             if (player?.player?.startTime > 0) {
                 setLoading(false);
@@ -34,6 +40,8 @@ const SingleRtsp = ({ id }) => {
             clearInterval(interval);
         }
     }, [player]);
+
+
 
     return (
         <div className='relative'>
