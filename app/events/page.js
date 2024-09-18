@@ -1,17 +1,13 @@
 "use client";
 import DetectionHistory from "@/components/DetectionHistory";
 import DynamicIconMapping from "@/components/DynamicIconMapping";
-import { cameraAtom } from "@/hooks/useSocketEvents";
-import { useAtomValue } from "jotai";
-import React, { useEffect } from "react";
-import moment from "moment-timezone";
 import SingleRtsp from "@/components/SingleRtsp";
+import moment from "moment-timezone";
+import React from "react";
 
 const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
 
 const Events = () => {
-  const [width, setWidth] = React.useState(0);
-  const cameraAtomVal = useAtomValue(cameraAtom);
   const [cameraData, setCameraData] = React.useState(null);
 
   return (

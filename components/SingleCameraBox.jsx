@@ -1,3 +1,4 @@
+import { blinkingTimeout, disableMovementTimeout } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
@@ -10,7 +11,7 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
   useEffect(() => {
     let timeout = setTimeout(() => {
       setIsDisabledMovement(false);
-    }, 3000);
+    }, disableMovementTimeout);
     return () => {
       clearTimeout(timeout);
     }
@@ -22,7 +23,7 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
       setStartBlinking(true);
       timeout = setTimeout(() => {
         setStartBlinking(false);
-      }, 5000);
+      }, blinkingTimeout);
     }
 
     return () => {
@@ -36,7 +37,7 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
     if (!isBlinking) return clearInterval(interval);
     interval = setInterval(() => {
       setBlinkingEffect((prev) => !prev);
-    }, 5000);
+    }, blinkingTimeout);
 
     return () => {
       clearInterval(interval);

@@ -1,13 +1,13 @@
 "use client";
 import DetectionHistory from "@/components/DetectionHistory";
-import React, { useState } from "react";
+import SingleRtsp from "@/components/SingleRtsp";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { cameraAtom } from "@/hooks/useSocketEvents";
+import { useAtomValue } from "jotai";
+import moment from "moment";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useAtomValue } from "jotai";
-import { cameraAtom } from "@/hooks/useSocketEvents";
-import moment from "moment";
-import SingleRtsp from "@/components/SingleRtsp";
 
 const Historical = () => {
   const cameraAtomVal = useAtomValue(cameraAtom);

@@ -1,20 +1,20 @@
-import { Camera, Trash, Trash2, X } from 'lucide-react';
-import React, { useState } from 'react';
-import { BasicModal } from './BasicModal';
-import { Button } from './ui/button';
-import { useApi } from 'use-hook-api';
 import { addCameraApi, deleteCameraApi, getCameraCoordinatesApi } from '@/apis/camera';
-import { Input } from './ui/input';
-import Loader from './ui/Loader';
-import { blinkCameraAtom } from '@/hooks/useSocketEvents';
-import { useAtomValue } from 'jotai';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
+import { blinkCameraAtom } from '@/hooks/useSocketEvents';
+import { useAtomValue } from 'jotai';
+import { Camera, Trash2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useApi } from 'use-hook-api';
+import { BasicModal } from './BasicModal';
+import Loader from './ui/Loader';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
