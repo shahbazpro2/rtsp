@@ -17,7 +17,7 @@ const Header = () => {
                         Events
                     </Link>
                     <Link href="/historical" className="text-white hover:text-gray-300">
-                        Historical Event
+                        Historical Events
                     </Link>
                 </nav>
             </div>

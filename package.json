@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "both-dev": "concurrently \"npm run dev\" \"npm run backend\"",
+    "both-prod": "concurrently \"npm run start\" \"npm run backend\"",
+    "backend": "cd rtsp_backend && npm start",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -20,6 +23,7 @@
     "amqplib": "^0.10.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "concurrently": "^9.0.1",
     "form-data": "^4.0.0",
     "jotai": "^2.9.3",
     "lucide-react": "^0.438.0",
