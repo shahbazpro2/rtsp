@@ -48,10 +48,8 @@
 
 The following constants are used in the project and can be found in /lib/constants.js
 
-    ```javascript
     export const disableMovementTimeout = 3000;
     export const blinkingTimeout = 5000;
-    ```
 
 ## Running the project
 
@@ -59,9 +57,7 @@ The following constants are used in the project and can be found in /lib/constan
 
 To run both the frontend and backend in development mode, use the following command:
 
-    ```bash
     npm run both-dev
-    ```
 
 This will:
 
@@ -86,7 +82,6 @@ npm run build
 
 In the package.json, the following scripts are available:
 
-    ```json
     {
         "scripts": {
         "both-dev": "concurrently \"npm run dev\" \"npm run backend\"",
@@ -98,7 +93,6 @@ In the package.json, the following scripts are available:
         "lint": "next lint"
         }
     }
-    ```
 
 - npm run both-dev: Runs both the frontend and backend in development mode.
 - npm run both-prod: Builds and runs both the frontend and backend in production mode.
@@ -106,7 +100,3 @@ In the package.json, the following scripts are available:
 - npm run build: Builds the frontend for production.
 - npm run start: Starts the frontend in production mode.
 - npm run backend: Runs the backend in development mode.
-
-```
-
-```
