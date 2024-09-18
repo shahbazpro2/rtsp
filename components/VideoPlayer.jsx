@@ -38,7 +38,7 @@ const VideoPlayer = () => {
 
     useEffect(() => {
         if (!cameras || Object.keys(cameras).length === 0) {
-            fetch("http://localhost:8000/stream")
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream`)
                 .then((response) => response.json())
                 .then((data) => {
 

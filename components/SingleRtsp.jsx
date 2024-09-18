@@ -9,7 +9,7 @@ const SingleRtsp = ({ id }) => {
     useEffect(() => {
         if (!id) return;
         setLoading(true)
-        fetch(`http://localhost:8000/stream/${id}`)
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}`)
             .then((response) => response.json())
             .then((data) => {
 
