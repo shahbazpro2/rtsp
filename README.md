@@ -28,14 +28,14 @@
 
 3.  Navigate to the rtsp_backend folder and install dependencies for the backend.
 
-        ```bash
-        cd rtsp_backend
-        npm install
-        # or
-        yarn
-        # or
-        pnpm
-        ```
+    ```bash
+    cd rtsp_backend
+    npm install
+    # or
+    yarn
+    # or
+    pnpm
+    ```
 
 4.  Create a .env file in the root directory and copy the values from env.example.
 
@@ -48,7 +48,7 @@
 
 The following constants are used in the project and can be found in /lib/constants.js
 
-    ```bash
+    ```javascript
     export const disableMovementTimeout = 3000;
     export const blinkingTimeout = 5000;
     ```
@@ -74,33 +74,31 @@ To build and run both the frontend and backend in production mode, use the follo
 
 1.  Build the Next.js project:
     `bash
-    npm run build
-    `
+npm run build
+`
 2.  Start both the frontend and backend:
 
-        ```bash
-        npm run both-prod
-        ```
+    ```bash
+    npm run both-prod
+    ```
 
 ## Available Scripts
 
 In the package.json, the following scripts are available:
 
-    ```bash
+    ```json
     {
-
-"scripts": {
-"both-dev": "concurrently \"npm run dev\" \"npm run backend\"",
-"both-prod": "concurrently \"npm run start\" \"npm run backend\"",
-"backend": "cd rtsp_backend && npm start",
-"dev": "next dev",
-"build": "next build",
-"start": "next start",
-"lint": "next lint"
-}
-}
-
-```
+        "scripts": {
+        "both-dev": "concurrently \"npm run dev\" \"npm run backend\"",
+        "both-prod": "concurrently \"npm run start\" \"npm run backend\"",
+        "backend": "cd rtsp_backend && npm start",
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+        }
+    }
+    ```
 
 - npm run both-dev: Runs both the frontend and backend in development mode.
 - npm run both-prod: Builds and runs both the frontend and backend in production mode.
@@ -108,5 +106,7 @@ In the package.json, the following scripts are available:
 - npm run build: Builds the frontend for production.
 - npm run start: Starts the frontend in production mode.
 - npm run backend: Runs the backend in development mode.
+
+```
 
 ```
