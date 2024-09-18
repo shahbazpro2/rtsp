@@ -5,27 +5,6 @@ import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import SingleCameraBox from "./SingleCameraBox";
 import Loader from "./ui/Loader";
-const ffmpegIP = "localhost";
-
-const getGridCols = (cameraCount) => {
-    if (cameraCount === 1) return "grid-cols-1";
-    if (cameraCount === 2) return "grid-cols-2";
-    if (cameraCount <= 4) return "grid-cols-2";
-    if (cameraCount <= 6) return "grid-cols-3";
-    if (cameraCount <= 9) return "grid-cols-3";
-    if (cameraCount >= 12) return "grid-cols-5";
-    return "grid-cols-4";
-};
-
-const getGridLayout = (cameraCount) => {
-    if (cameraCount === 1) return { cols: 1, rows: 1 };
-    if (cameraCount === 2) return { cols: 2, rows: 1 };
-    if (cameraCount <= 4) return { cols: 2, rows: Math.ceil(cameraCount / 2) };
-    if (cameraCount <= 6) return { cols: 3, rows: Math.ceil(cameraCount / 3) };
-    if (cameraCount <= 9) return { cols: 3, rows: Math.ceil(cameraCount / 3) };
-    if (cameraCount >= 12) return { cols: 5, rows: Math.ceil(cameraCount / 5) };
-    return { cols: 4, rows: Math.ceil(cameraCount / 4) };
-};
 
 function getGridColsClass(tilerColumns) {
     return `grid-cols-${tilerColumns}`;
@@ -46,16 +25,16 @@ const VideoPlayer = () => {
                 .catch((error) => console.error("Error starting stream:", error));
         }
 
-        const videoUrl = `ws://${ffmpegIP}:6789/`;
+        const videoUrl = `ws://localhost:6789/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
         });
         const interval = setInterval(() => {
             if (player?.player?.currentTime > 0) {
-                setLoading(false); // Hide loader when the video starts playing
-                clearInterval(interval); // Stop polling
+                setLoading(false);
+                clearInterval(interval);
             }
-        }, 500); // Poll every 500ms
+        }, 500);
 
         return () => {
             clearInterval(interval);
