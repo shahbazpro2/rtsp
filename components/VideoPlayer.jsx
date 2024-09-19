@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 import SingleCameraBox from "./SingleCameraBox";
 import Loader from "./ui/Loader";
 
-function getGridColsClass(tilerColumns) {
-    return `grid-cols-${tilerColumns}`;
-}
 
 const VideoPlayer = () => {
     const cameras = useAtomValue(cameraAtom);
@@ -45,7 +42,6 @@ const VideoPlayer = () => {
     const cameraCount = Object.keys(cameras || {}).length;
     const tilerRows = Math.floor(Math.sqrt(cameraCount));
     const tilerColumns = Math.ceil(cameraCount / tilerRows);
-    const gridColsClass = getGridColsClass(tilerColumns);
     const parentHeight = 565;
     const boxHeight = parentHeight / tilerRows;
 
@@ -66,7 +62,7 @@ const VideoPlayer = () => {
                         </div>
                     )}
                     <div id="video-canvas" style={{ height: 565, width: 1000 }}></div>
-                    <div className={`grid absolute top-0 w-full h-full z-[10000] ${gridColsClass}`}>
+                    <div className={`grid absolute top-0 w-full h-full z-[10000]`} style={{ gridTemplateColumns: `repeat(${tilerColumns}, minmax(0, 1fr))` }}>
 
                         {Object.entries(cameras || {}).map(([key, _], index) => (
                             <div key={index} className="relative">
