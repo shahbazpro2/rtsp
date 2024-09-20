@@ -40,7 +40,7 @@
 4.  Create a .env file in the root directory and copy the values from env.example.
 
     ```bash
-    NEXT_PUBLIC_API_URL=https://723cd6fa68c1a0c386448fccd88c6c2b.serveo.net
+    NEXT_PUBLIC_API_URL=http://localhost:5000
     NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
     ```
 
@@ -69,7 +69,7 @@ This will:
 To build and run both the frontend and backend in production mode, use the following commands:
 
 1.  Build the Next.js project:
-    `bash
+    ```bash
 npm run build
 `
 2.  Start both the frontend and backend:
