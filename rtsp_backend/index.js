@@ -21,7 +21,7 @@ app.get("/stream", (req, res) => {
   const stream1 = () => {
     stream = new Stream({
       name: "Bunny",
-      streamUrl: "rtsp://admin:zxcvbnm0.@190.92.4.249:554/cam/realmonitor?channel=1&subtype=0",
+      streamUrl: "rtsp://127.0.0.1:8554/ds-test",
       wsPort: 6789,
       /*  ffmpegOptions: {
       "-f": "mpegts",
@@ -56,19 +56,18 @@ app.get("/stream/:id", (req, res) => {
       name: "Single Camera",
       streamUrl: cameraData,
       wsPort: 6790,
-      /*  ffmpegOptions: {
-          "-f": "mpegts",
-          "-codec:v": "mpeg1video",
-          "-b:v": "1000k",
-          "-stats": "",
-          "-r": 25,
-          "-s": "1920x1080",
-          "-bf": 0,
-          "-codec:a": "mp2",
-          "-ar": 44100,
-          "-ac": 1,
-          "-b:a": "128k",
-        }, */
+      ffmpegOptions: {
+        "-f": "mpegts",
+        "-codec:v": "mpeg1video",
+        "-b:v": "512k", // Bitrate adjusted to 512 kbps
+        "-r": 30, // Adjust FPS to 15
+        "-s": "640x360", // Resolution matches the camera
+        "-bf": 0,
+        "-codec:a": "mp2",
+        "-ar": 44100,
+        "-ac": 1,
+        "-b:a": "128k",
+      },
     });
   };
   if (singleStream) {
