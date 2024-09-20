@@ -70,7 +70,7 @@ To build and run both the frontend and backend in production mode, use the follo
 
 1.  Build the Next.js project:
     ```bash
-        npm run build
+    npm run build
     ```
 2.  Start both the frontend and backend:
 
