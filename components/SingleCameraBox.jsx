@@ -32,18 +32,18 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
     }
   }, [isBlinking]);
 
-  useEffect(() => {
-    let interval = null;
-    if (!isBlinking) return clearInterval(interval);
-    interval = setInterval(() => {
-      setBlinkingEffect((prev) => !prev);
-    }, blinkingTimeout);
-
-    return () => {
-      clearInterval(interval);
-    }
-
-  }, [isBlinking])
+  /*   useEffect(() => {
+      let interval = null;
+      if (!isBlinking) return clearInterval(interval);
+      interval = setInterval(() => {
+        setBlinkingEffect((prev) => !prev);
+      }, blinkingTimeout);
+  
+      return () => {
+        clearInterval(interval);
+      }
+  
+    }, [isBlinking]) */
 
   const onMovementBlock = (e) => {
     setIsDisabledMovement(true);

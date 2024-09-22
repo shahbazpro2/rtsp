@@ -61,7 +61,7 @@ const VideoPlayer = () => {
                             <Loader />
                         </div>
                     )}
-                    <div id="video-canvas" style={{ height: 565, width: 1000 }}></div>
+                    <div id="video-canvas" style={{ height: 565, width: 1460 }}></div>
                     <div className={`grid absolute top-0 w-full h-full z-[10000]`} style={{ gridTemplateColumns: `repeat(${tilerColumns}, minmax(0, 1fr))` }}>
 
                         {Object.entries(cameras || {}).map(([key, _], index) => (
