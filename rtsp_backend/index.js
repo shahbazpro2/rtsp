@@ -18,6 +18,13 @@ let currentQueueData = {
 let stream, singleStream;
 
 app.get("/stream", (req, res) => {
+  const { stop } = req.query || {};
+  console.log("stop", stop);
+  if (stop === "true" && stream) {
+    stream.stop();
+    stream = null
+    return res.send({ message: "success" });
+  }
   const stream1 = () => {
     stream = new Stream({
       name: "Bunny",
@@ -38,14 +45,17 @@ app.get("/stream", (req, res) => {
     }, */
     });
   };
-  if (stream) {
-    stream.stop();
-  }
   stream1();
   res.send({ message: "success" });
 });
 
 app.get("/stream/:id", (req, res) => {
+  const { stop } = req.query || {};
+  if (stop === "true" && singleStream) {
+    singleStream.stop();
+    singleStream = null;
+    return res.send({ message: "success" });
+  }
   const parms = req.params.id;
   const cameraData = currentQueueData[queues[0]]?.[parms] + ":554/Streaming/channels/102";
   if (!cameraData) {
@@ -70,9 +80,7 @@ app.get("/stream/:id", (req, res) => {
       },
     });
   };
-  if (singleStream) {
-    singleStream.stop();
-  }
+
   stream1();
   res.send({ message: "success" });
 });

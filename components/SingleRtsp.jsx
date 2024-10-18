@@ -23,6 +23,7 @@ const SingleRtsp = ({ id }) => {
 
         return () => {
             setPlayer(null)
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
         }
 
     }, [id]);

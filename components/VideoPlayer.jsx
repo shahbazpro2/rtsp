@@ -35,6 +35,7 @@ const VideoPlayer = () => {
 
         return () => {
             clearInterval(interval);
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
         }
 
     }, [cameras]);
