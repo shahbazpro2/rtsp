@@ -13,14 +13,12 @@ const VideoPlayer = () => {
     const [loading, setLoading] = useState(true); // State to track loading status
 
     useEffect(() => {
-        if (!cameras || Object.keys(cameras).length === 0) {
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream`)
-                .then((response) => response.json())
-                .then((data) => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream`)
+            .then((response) => response.json())
+            .then((data) => {
 
-                })
-                .catch((error) => console.error("Error starting stream:", error));
-        }
+            })
+            .catch((error) => console.error("Error starting stream:", error));
 
         const videoUrl = `ws://localhost:6789/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
