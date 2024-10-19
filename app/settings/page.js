@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
-import { Switch } from "../../components/ui/Switch";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useApi } from "use-hook-api";
 import { getUserSettings, postUserSettings } from "../../apis/settings";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 const Setting = () => {
   const [path, setPath] = useState('')
