@@ -19,6 +19,9 @@ const Header = () => {
                     <Link href="/historical" className="text-white hover:text-gray-300">
                         Historical Events
                     </Link>
+                    <Link href="/settings" className="text-white hover:text-gray-300">
+                        Settings
+                    </Link>
                 </nav>
             </div>
         </header>
