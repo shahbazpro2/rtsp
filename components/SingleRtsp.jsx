@@ -42,6 +42,10 @@ const SingleRtsp = ({ id }) => {
         }
     }, [player]);
 
+    window.addEventListener("beforeunload", (event) => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
+    });
+
 
 
     return (

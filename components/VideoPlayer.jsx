@@ -40,6 +40,10 @@ const VideoPlayer = () => {
 
     }, [cameras]);
 
+    window.addEventListener("beforeunload", (event) => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
+    });
+
     const cameraCount = Object.keys(cameras || {}).length;
     const tilerRows = Math.floor(Math.sqrt(cameraCount));
     const tilerColumns = Math.ceil(cameraCount / tilerRows);
