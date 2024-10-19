@@ -1,11 +1,10 @@
 "use client";
-import "react-calendar/dist/Calendar.css";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
-import { useApi } from "use-hook-api";
+import { Button } from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Switch } from "../../components/ui/Switch";
 import { useState } from "react";
-import { Switch } from "@/components/ui/Switch";
-import { Label } from "@/components/ui/Label";
+import "react-calendar/dist/Calendar.css";
+import { useApi } from "use-hook-api";
 import { getUserSettings, postUserSettings } from "../../apis/settings";
 
 const Setting = () => {
