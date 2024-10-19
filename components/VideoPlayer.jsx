@@ -33,6 +33,11 @@ const VideoPlayer = () => {
             }
         }, 500);
 
+        window.addEventListener("beforeunload", (event) => {
+            console.log('call')
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
+        });
+
         return () => {
             clearInterval(interval);
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
@@ -40,9 +45,7 @@ const VideoPlayer = () => {
 
     }, [cameras]);
 
-    window.addEventListener("beforeunload", (event) => {
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
-    });
+
 
     const cameraCount = Object.keys(cameras || {}).length;
     const tilerRows = Math.floor(Math.sqrt(cameraCount));

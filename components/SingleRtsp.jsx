@@ -20,7 +20,9 @@ const SingleRtsp = ({ id }) => {
             autoplay: true,
         });
         setPlayer(player);
-
+        window.addEventListener("beforeunload", (event) => {
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
+        });
         return () => {
             setPlayer(null)
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
@@ -37,14 +39,14 @@ const SingleRtsp = ({ id }) => {
             }
         }, 500);
 
+
+
         return () => {
             clearInterval(interval);
         }
     }, [player]);
 
-    window.addEventListener("beforeunload", (event) => {
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
-    });
+
 
 
 
