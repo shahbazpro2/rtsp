@@ -7,7 +7,10 @@ const SingleRtsp = ({ id }) => {
     const [player, setPlayer] = useState(null);
 
     useEffect(() => {
-        if (!id) return;
+        if (!id) return () => {
+            setPlayer(null)
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
+        };
         setLoading(true)
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}`)
             .then((response) => response.json())
@@ -23,6 +26,7 @@ const SingleRtsp = ({ id }) => {
         window.addEventListener("beforeunload", (event) => {
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
         });
+
         return () => {
             setPlayer(null)
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
