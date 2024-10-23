@@ -37,11 +37,17 @@ const VideoPlayer = () => {
         });
 
         return () => {
+            try{
+                player?.destroy()
+            }catch(err){
+                window.location.replace(`/`)
+                console.log("err11",err)
+            }
             clearInterval(interval);
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
         }
 
-    }, [cameras]);
+    }, []);
 
 
 
@@ -53,11 +59,12 @@ const VideoPlayer = () => {
 
     return (
         <div id="body">
+            
             <div
                 id="title"
                 className="flex justify-center items-center text-3xl font-bold mt-10 mb-2.5 text-primary"
             >
-                Video Wallboard
+                Summit Ridge Camera Wall
             </div>
             <div className="flex justify-center items-center mt-7">
                 <div className="relative">

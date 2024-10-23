@@ -15,19 +15,25 @@ const useSocketEvents = () => {
 
     socket.emit("initialData", null);
 
+    socket.on('initialCamera',(val)=>{
+      console.log('initialcamera',val)
+   //sort the cameras by name like Camera 1, Camera 2, Camera 3
+   const sortedCameras = Object.keys(val)
+   .sort((a, b) => {
+     const aNum = parseInt(a.split(" ")[1]);
+     const bNum = parseInt(b.split(" ")[1]);
+     return aNum - bNum;
+   })
+   .reduce((acc, key) => {
+     acc[key] = val[key];
+     return acc;
+   }, {});
+ setCameraAtom(sortedCameras);
+    })
+
     socket.on("Camera-Status", (val) => {
-      //sort the cameras by name like Camera 1, Camera 2, Camera 3
-      const sortedCameras = Object.keys(val)
-        .sort((a, b) => {
-          const aNum = parseInt(a.split(" ")[1]);
-          const bNum = parseInt(b.split(" ")[1]);
-          return aNum - bNum;
-        })
-        .reduce((acc, key) => {
-          acc[key] = val[key];
-          return acc;
-        }, {});
-      setCameraAtom(sortedCameras);
+      console.log('cammsta',val)
+      window.location.reload()
     });
 
     socket.on("NVR-Alert", (val) => {

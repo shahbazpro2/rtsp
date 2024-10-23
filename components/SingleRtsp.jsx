@@ -1,35 +1,73 @@
 import JSMpeg from '@cycjimmy/jsmpeg-player';
 import React, { useEffect, useState } from 'react'
 import Loader from './ui/Loader';
+import { useApi } from 'use-hook-api';
+import { singleStreamApi } from '@/apis/stream';
+import { atom, useAtom } from 'jotai';
+import {usePathname} from 'next/navigation'
+
+export const playerAtom=atom(null)
 
 const SingleRtsp = ({ id }) => {
     const [loading, setLoading] = useState(true);
-    const [player, setPlayer] = useState(null);
+    const [player, setPlayer] = useAtom(playerAtom);
+    const pathname=usePathname()
+    const [callApi]=useApi({})
+console.log('pathname',pathname)
 
-    useEffect(() => {
-        if (!id) return () => {
-            setPlayer(null)
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
-        };
-        setLoading(true)
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}`)
-            .then((response) => response.json())
-            .then((data) => {
+    const clearFun=()=>{
+        console.log('call',player)
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
+        
+        destroyFun()
+        
+    }
 
-            })
-            .catch((error) => console.error("Error starting stream:", error));
-        const videoUrl = `ws://localhost:6790/`;
-        const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
-            autoplay: true,
-        });
-        setPlayer(player);
+
+    const destroyFun=()=>{
+        try{
+            player?.destroy()
+        }catch(err){
+            if(pathname==='/historical'){
+                window.location.reload()
+            }else
+            window.location.replace(`/events/${id}`)
+            console.log("err11",err)
+        }
+    }
+
+    useEffect(()=>{
         window.addEventListener("beforeunload", (event) => {
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
         });
+    },[])
+
+    useEffect(() => {
+     
+        if (!id) return () => {
+            clearFun()
+        };
+
+        setLoading(true)
+        callApi(singleStreamApi(id),null,()=>{
+           destroyFun()
+            setPlayer(null)
+        })
+      /* fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}`)
+          .then((response) => response.json())
+          .then((data) => {
+
+          })
+          .catch((error) => console.error("Error starting stream:", error)); */
+        const videoUrl = `ws://localhost:6790/`;
+        const pl = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
+            autoplay: true,
+        });
+        setPlayer(pl);
+        
 
         return () => {
-            setPlayer(null)
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
+            clearFun()
         }
 
     }, [id]);

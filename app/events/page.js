@@ -10,6 +10,7 @@ const currentDate = moment.tz(moment(), moment.tz.guess()).format("YYYY-MM-DD");
 const Events = () => {
   const [cameraData, setCameraData] = React.useState(null);
 
+
   return (
     <div className="text-3xl mt-5 text-center container">
       <div className="flex flex-col items-center justify-center" id="container">

@@ -36,7 +36,7 @@ const DetectionHistory = ({ cameraId, date }) => {
             ) : <div className="space-y-3">
 
                 {data?.events?.map((event) => (
-                    <Accordion key={event?.id} type="single" collapsible className="w-full border border-gray-300 p-4 rounded-lg max-h-[70vh] overflow-auto" >
+                    <Accordion key={event?.EventID} type="single" collapsible className="w-full border border-gray-300 p-4 rounded-lg max-h-[70vh] overflow-auto" >
                         <AccordionItem value="item-1" className="border-none !py-0">
                             <AccordionTrigger className="py-1">
                                 <div className="flex justify-between w-full">

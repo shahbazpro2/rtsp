@@ -20,11 +20,7 @@ let stream, singleStream;
 app.get("/stream", (req, res) => {
   const { stop } = req.query || {};
   console.log("stop", stop);
-  if (stop === "true" && stream) {
-    stream.stop();
-    stream = null
-    return res.send({ message: "success" });
-  }
+
   const stream1 = () => {
     stream = new Stream({
       name: "Bunny",
@@ -45,18 +41,27 @@ app.get("/stream", (req, res) => {
     }, */
     });
   };
+  if (stream) {
+    stream.stop();
+    stream = null
+    if(stop === "true")
+    return res.send({ message: "success" });
+  }
   stream1();
   res.send({ message: "success" });
 });
 
 app.get("/stream/:id", (req, res) => {
   const { stop } = req.query || {};
-  if (stop === "true" && singleStream) {
-    singleStream.stop();
-    singleStream = null;
-    return res.send({ message: "success" });
-  }
+
   const parms = req.params.id;
+
+  if (!currentQueueData[queues[0]]?.[parms]) {
+    singleStream?.stop();
+    singleStream = null;
+    return res.status(400).send({ message: "Camera not found" });
+  }
+
   const cameraData = currentQueueData[queues[0]]?.[parms] + ":554/Streaming/channels/102";
   if (!cameraData) {
     return res.send({ message: "Camera not found" });
@@ -81,6 +86,13 @@ app.get("/stream/:id", (req, res) => {
     });
   };
 
+  if (singleStream) {
+    singleStream.stop();
+    singleStream = null
+    if(stop === "true")
+    return res.send({ message: "success" });
+  }
+
   stream1();
   res.send({ message: "success" });
 });
@@ -93,7 +105,7 @@ io.on("connection", (socket) => {
   console.log("New client connected", currentQueueData[queues[0]]);
 
   socket.on("initialData", () => {
-    io.emit(queues[0], currentQueueData[queues[0]]);
+    io.emit('initialCamera', currentQueueData[queues[0]]);
     io.emit(queues[1], currentQueueData[queues[1]]);
   });
 

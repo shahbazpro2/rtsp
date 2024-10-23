@@ -129,7 +129,7 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
             <div
                 className="relative w-[1000px] h-[500px] border border-gray-300"
                 onClick={handleDivClick}
-                style={{ cursor: 'crosshair', backgroundImage: 'url("/map1.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
+                style={{ cursor: 'crosshair', backgroundImage: 'url("/Map_v6.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
                 {
                     loading &&
