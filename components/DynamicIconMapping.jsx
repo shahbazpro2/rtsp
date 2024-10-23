@@ -50,7 +50,10 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
             <div className="p-4">
                 <h3 className="text-lg font-semibold">Add Icon</h3>
                 <p>Do you want to add an icon here?</p>
-            
+            {
+            !loading && !data?.new_cameras?.length ? <div>
+                No new cameras available
+            </div>:
                 <Select onValueChange={(val) => setCameraInput(val)}>
               <SelectTrigger className="w-[350px] mt-3">
                 <SelectValue placeholder="Select a Camera" />
@@ -65,6 +68,7 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            }
                 <div className="mt-4 flex justify-end">
                     <Button disabled={loading || !cameraInput} onClick={handleConfirm} className="mr-2">Confirm</Button>
                     <Button onClick={handleCancel}>Cancel</Button>
