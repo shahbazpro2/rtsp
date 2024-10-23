@@ -21,14 +21,14 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
     let timeout = null;
     if (isBlinking) {
       setStartBlinking(true);
-      timeout = setTimeout(() => {
+     /*  timeout = setTimeout(() => {
         setStartBlinking(false);
-      }, blinkingTimeout);
+      }, blinkingTimeout); */
     }
 
     return () => {
-      setStartBlinking(false);
-      clearTimeout(timeout);
+      //setStartBlinking(false);
+     /*  clearTimeout(timeout); */
     }
   }, [isBlinking]);
 

@@ -40,7 +40,7 @@ const VideoPlayer = () => {
             try{
                 player?.destroy()
             }catch(err){
-                window.location.replace(`/`)
+               // window.location.replace(`/`)
                 console.log("err11",err)
             }
             clearInterval(interval);

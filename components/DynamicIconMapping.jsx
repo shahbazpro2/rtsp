@@ -1,4 +1,4 @@
-import { addCameraApi, deleteCameraApi, getCameraCoordinatesApi } from '@/apis/camera';
+import { addCameraApi, deleteCameraApi, getCameraCoordinatesApi, listCamerasApi } from '@/apis/camera';
 import {
     Tooltip,
     TooltipContent,
@@ -9,17 +9,25 @@ import { blinkCameraAtom } from '@/hooks/useSocketEvents';
 import { useAtomValue } from 'jotai';
 import { Camera, Trash2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApi } from 'use-hook-api';
 import { BasicModal } from './BasicModal';
 import Loader from './ui/Loader';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
     const [, { refetch }] = useApi({ cache: 'cameras' })
     const [cameraInput, setCameraInput] = useState('')
+    const [callApi,{data,loading:camerasLoading}]=useApi({})
+
+    useEffect(()=>{
+        if(popupOpen){
+            callApi(listCamerasApi())
+        }
+    },[popupOpen])
+
     const handleConfirm = () => {
         const formData = new FormData()
         formData.append('x', popupOpen.x)
@@ -42,8 +50,21 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
             <div className="p-4">
                 <h3 className="text-lg font-semibold">Add Icon</h3>
                 <p>Do you want to add an icon here?</p>
-                <div className="text-lg">Camera ID</div>
-                <Input value={cameraInput} onChange={e => setCameraInput(e.target.value)} />
+            
+                <Select onValueChange={(val) => setCameraInput(val)}>
+              <SelectTrigger className="w-[350px] mt-3">
+                <SelectValue placeholder="Select a Camera" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {data?.new_cameras?.map((camera) => (
+                    <SelectItem key={camera} value={camera}>
+                      {camera}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
                 <div className="mt-4 flex justify-end">
                     <Button disabled={loading || !cameraInput} onClick={handleConfirm} className="mr-2">Confirm</Button>
                     <Button onClick={handleCancel}>Cancel</Button>
@@ -142,7 +163,7 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                         <Tooltip delayDuration={100} >
                             <div
 
-                                className="absolute cursor-pointer -z-0"
+                                className="absolute cursor-pointer -z-0 text-white"
                                 style={{
                                     left: `${val?.[0]}px`,
                                     top: `${val?.[1]}px`,

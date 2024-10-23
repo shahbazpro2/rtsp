@@ -15,3 +15,7 @@ export const getCameraCoordinatesApi = () => {
 export const getAllCamerasConfigApi = () => {
   return responseApi("/get_camera_config", "get");
 };
+
+export const listCamerasApi=()=>{
+  return responseApi('/list_cameras','get')
+}
