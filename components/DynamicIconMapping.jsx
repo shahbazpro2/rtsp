@@ -20,13 +20,13 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
     const [postApi, { loading }] = useApi({ both: true })
     const [, { refetch }] = useApi({ cache: 'cameras' })
     const [cameraInput, setCameraInput] = useState('')
-    const [callApi,{data,loading:camerasLoading}]=useApi({})
+    const [callApi, { data, loading: camerasLoading }] = useApi({})
 
-    useEffect(()=>{
-        if(popupOpen){
+    useEffect(() => {
+        if (popupOpen) {
             callApi(listCamerasApi())
         }
-    },[popupOpen])
+    }, [popupOpen])
 
     const handleConfirm = () => {
         const formData = new FormData()
@@ -50,27 +50,27 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
             <div className="p-4">
                 <h3 className="text-lg font-semibold">Add Icon</h3>
                 <p>Do you want to add an icon here?</p>
-            {
-            !loading && !data?.new_cameras?.length ? <div>
-                No new cameras available
-            </div>:
-                <Select onValueChange={(val) => setCameraInput(val)}>
-              <SelectTrigger className="w-[350px] mt-3">
-                <SelectValue placeholder="Select a Camera" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {data?.new_cameras?.map((camera) => (
-                    <SelectItem key={camera} value={camera}>
-                      {camera}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            }
+                {
+                    !camerasLoading && !data?.new_cameras?.length ? <div>
+                        No new cameras available
+                    </div> :
+                        <Select onValueChange={(val) => setCameraInput(val)}>
+                            <SelectTrigger className="w-[350px] mt-3">
+                                <SelectValue placeholder="Select a Camera" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {data?.new_cameras?.map((camera) => (
+                                        <SelectItem key={camera} value={camera}>
+                                            {camera}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                }
                 <div className="mt-4 flex justify-end">
-                    <Button disabled={loading || !cameraInput} onClick={handleConfirm} className="mr-2">Confirm</Button>
+                    <Button disabled={loading || !cameraInput || camerasLoading} onClick={handleConfirm} className="mr-2">Confirm</Button>
                     <Button onClick={handleCancel}>Cancel</Button>
                 </div>
             </div>
@@ -178,7 +178,7 @@ const DynamicIconMappingWithImage = ({ setCameraData, cameraData }) => {
                                 <div className='relative'>
 
                                     <TooltipTrigger asChild>
-                                        <Camera className={`text-white ${blinkCamera?.[key] ? 'fill-green-400 animate-blink' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
+                                        <Camera className={`text-white ${blinkCamera?.[key]?.length > 0 ? 'fill-green-400 animate-blink' : 'fill-blue-500'}  size-10`} onClick={() => onSetCameraData({
                                             id: key,
                                             x: val?.[0],
                                             y: val?.[1]

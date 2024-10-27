@@ -1,6 +1,6 @@
-import { blinkingTimeout, disableMovementTimeout } from '@/lib/constants';
+import { disableMovementTimeout } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 
 const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
   const [isDisabledMovement, setIsDisabledMovement] = React.useState(false);
@@ -21,14 +21,14 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
     let timeout = null;
     if (isBlinking) {
       setStartBlinking(true);
-     /*  timeout = setTimeout(() => {
-        setStartBlinking(false);
-      }, blinkingTimeout); */
+      /*  timeout = setTimeout(() => {
+         setStartBlinking(false);
+       }, blinkingTimeout); */
     }
 
     return () => {
       //setStartBlinking(false);
-     /*  clearTimeout(timeout); */
+      /*  clearTimeout(timeout); */
     }
   }, [isBlinking]);
 

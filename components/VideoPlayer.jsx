@@ -5,12 +5,40 @@ import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import SingleCameraBox from "./SingleCameraBox";
 import Loader from "./ui/Loader";
+import useSound from 'use-sound';
 
 
 const VideoPlayer = () => {
     const cameras = useAtomValue(cameraAtom);
     const blinkCamera = useAtomValue(blinkCameraAtom);
-    const [loading, setLoading] = useState(true); // State to track loading status
+    const [loading, setLoading] = useState(true);
+    const [carPlay] = useSound('/car.mp3')
+    const [personPlay] = useSound('/person.mp3')
+    const [carPersonPlay] = useSound('/car-person.mp3')
+
+    useEffect(() => {
+        // sample data: { "camera1": ["car"], "camera2": ["person"], "camera3": ["car", "person"] }
+        const resData = Object.values(blinkCamera).reduce((acc, curr) => {
+            //if any camera has both car and person, play carPerson sound and if any camera has only car, play car sound and if any camera has only person, play person sound
+            if (curr.includes('car') && curr.includes('person')) {
+                return { isCar: false, isPerson: false, isBoth: true }
+            } else if (curr.includes('car')) {
+                return { isCar: true, isPerson: false, isBoth: false }
+            } else if (curr.includes('person')) {
+                return { isCar: false, isPerson: true, isBoth: false }
+            }
+        }, { isCar: false, isPerson: false, isBoth: false })
+        const { isCar, isPerson, isBoth } = resData
+        console.log('blinkData', isCar, isPerson, isBoth)
+        if (isBoth) {
+            carPersonPlay()
+        } else if (isCar) {
+            carPlay()
+        } else if (isPerson) {
+            personPlay()
+        }
+
+    }, [blinkCamera])
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream`)
@@ -37,11 +65,11 @@ const VideoPlayer = () => {
         });
 
         return () => {
-            try{
+            try {
                 player?.destroy()
-            }catch(err){
-               // window.location.replace(`/`)
-                console.log("err11",err)
+            } catch (err) {
+                // window.location.replace(`/`)
+                console.log("err11", err)
             }
             clearInterval(interval);
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream?stop=true`)
@@ -59,7 +87,7 @@ const VideoPlayer = () => {
 
     return (
         <div id="body">
-            
+
             <div
                 id="title"
                 className="flex justify-center items-center text-3xl font-bold mt-10 mb-2.5 text-primary"
@@ -81,8 +109,7 @@ const VideoPlayer = () => {
                             <div key={index} className="relative">
                                 <SingleCameraBox
                                     data={key}
-
-                                    isBlinking={blinkCamera?.[key] && !loading}
+                                    isBlinking={blinkCamera?.[key]?.length && !loading}
                                     boxHeight={boxHeight}
                                 />
                                 <div className="absolute bottom-0 right-0 z-50 text-white text-xs font-bold bg-black/50 px-2 rounded">
