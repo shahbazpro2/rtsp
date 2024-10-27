@@ -18,7 +18,7 @@ const VideoPlayer = () => {
 
     useEffect(() => {
         // sample data: { "camera1": ["car"], "camera2": ["person"], "camera3": ["car", "person"] }
-        const resData = Object.values(blinkCamera).reduce((acc, curr) => {
+        const resData = Object.values(blinkCamera || {}).reduce((acc, curr) => {
             //if any camera has both car and person, play carPerson sound and if any camera has only car, play car sound and if any camera has only person, play person sound
             if (curr.includes('car') && curr.includes('person')) {
                 return { isCar: false, isPerson: false, isBoth: true }
