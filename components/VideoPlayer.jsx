@@ -28,7 +28,7 @@ const VideoPlayer = () => {
                 return { isCar: false, isPerson: true, isBoth: false }
             }
         }, { isCar: false, isPerson: false, isBoth: false })
-        const { isCar, isPerson, isBoth } = resData
+        const { isCar, isPerson, isBoth } = resData || {}
         console.log('blinkData', isCar, isPerson, isBoth)
         if (isBoth) {
             carPersonPlay()
