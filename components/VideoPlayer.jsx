@@ -109,7 +109,7 @@ const VideoPlayer = () => {
                             <div key={index} className="relative">
                                 <SingleCameraBox
                                     data={key}
-                                    isBlinking={blinkCamera?.[key]?.length && !loading}
+                                    isBlinking={blinkCamera?.[key]?.length > 0 && !loading}
                                     boxHeight={boxHeight}
                                 />
                                 <div className="absolute bottom-0 right-0 z-50 text-white text-xs font-bold bg-black/50 px-2 rounded">
