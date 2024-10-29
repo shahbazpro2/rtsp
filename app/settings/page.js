@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useApi } from "use-hook-api";
 import { getUserSettings, postUserSettings } from "../../apis/settings";
@@ -10,11 +10,15 @@ import { Switch } from "@/components/ui/switch";
 const Setting = () => {
   const [path, setPath] = useState('')
   const [audio, setAudio] = useState(false)
-  const [, { loading }] = useApi({}, getUserSettings(), ({ data }) => {
-    setPath(data.frames_path)
-    setAudio(data.audio === 'on')
-  })
-  const [callApi, { data, loading: postLoading }] = useApi({ both: true, resSuccessMsg: 'Settings saved successfully' });
+  const [, { data, loading }] = useApi({ cache: 'userSettings' }, getUserSettings())
+  const [callApi, { loading: postLoading }] = useApi({ both: true, resSuccessMsg: 'Settings saved successfully' });
+
+  useEffect(() => {
+    if (data) {
+      setPath(data.frames_path)
+      setAudio(data.audio === 'on')
+    }
+  }, [data])
 
   const onSave = () => {
     const formData = new FormData();

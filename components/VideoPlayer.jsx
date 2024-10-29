@@ -6,20 +6,21 @@ import { useEffect, useState } from "react";
 import SingleCameraBox from "./SingleCameraBox";
 import Loader from "./ui/Loader";
 import useSound from 'use-sound';
+import useUserSettings from "@/hooks/useUserSettings";
 
 
 const VideoPlayer = () => {
     const cameras = useAtomValue(cameraAtom);
     const blinkCamera = useAtomValue(blinkCameraAtom);
     const [loading, setLoading] = useState(true);
+    const settingData = useUserSettings()
     const [carPlay] = useSound('/car.mp3')
     const [personPlay] = useSound('/person.mp3')
     const [carPersonPlay] = useSound('/car-person.mp3')
 
     useEffect(() => {
-        // sample data: { "camera1": ["car"], "camera2": ["person"], "camera3": ["car", "person"] }
+        if (settingData?.loading || settingData?.audio !== 'on') return
         const resData = Object.values(blinkCamera || {}).reduce((acc, curr) => {
-            //if any camera has both car and person, play carPerson sound and if any camera has only car, play car sound and if any camera has only person, play person sound
             if (curr.includes('car') && curr.includes('person')) {
                 return { isCar: false, isPerson: false, isBoth: true }
             } else if (curr.includes('car')) {
@@ -38,7 +39,7 @@ const VideoPlayer = () => {
             personPlay()
         }
 
-    }, [blinkCamera])
+    }, [blinkCamera, settingData])
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream`)
