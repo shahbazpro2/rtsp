@@ -19,7 +19,7 @@ const VideoPlayer = () => {
     const [carPersonPlay] = useSound('/car-person.mp3')
 
     useEffect(() => {
-        if (settingData?.loading || settingData?.audio !== 'on') return
+        if (settingData?.loading || settingData?.data?.audio !== 'on') return
         const resData = Object.values(blinkCamera || {}).reduce((acc, curr) => {
             if (curr.includes('Car') && curr.includes('Person')) {
                 return { isCar: false, isPerson: false, isBoth: true }
