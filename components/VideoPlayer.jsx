@@ -21,16 +21,15 @@ const VideoPlayer = () => {
     useEffect(() => {
         if (settingData?.loading || settingData?.audio !== 'on') return
         const resData = Object.values(blinkCamera || {}).reduce((acc, curr) => {
-            if (curr.includes('car') && curr.includes('person')) {
+            if (curr.includes('Car') && curr.includes('Person')) {
                 return { isCar: false, isPerson: false, isBoth: true }
-            } else if (curr.includes('car')) {
+            } else if (curr.includes('Car')) {
                 return { isCar: true, isPerson: false, isBoth: false }
-            } else if (curr.includes('person')) {
+            } else if (curr.includes('Person')) {
                 return { isCar: false, isPerson: true, isBoth: false }
             }
         }, { isCar: false, isPerson: false, isBoth: false })
         const { isCar, isPerson, isBoth } = resData || {}
-        console.log('blinkData', isCar, isPerson, isBoth)
         if (isBoth) {
             carPersonPlay()
         } else if (isCar) {
