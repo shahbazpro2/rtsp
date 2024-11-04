@@ -5,40 +5,12 @@ import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import SingleCameraBox from "./SingleCameraBox";
 import Loader from "./ui/Loader";
-import useSound from 'use-sound';
-import useUserSettings from "@/hooks/useUserSettings";
 
 
 const VideoPlayer = () => {
     const cameras = useAtomValue(cameraAtom);
     const blinkCamera = useAtomValue(blinkCameraAtom);
     const [loading, setLoading] = useState(true);
-    const settingData = useUserSettings()
-    const [carPlay] = useSound('/car.mp3')
-    const [personPlay] = useSound('/person.mp3')
-    const [carPersonPlay] = useSound('/car-person.mp3')
-
-    useEffect(() => {
-        if (settingData?.loading || settingData?.data?.audio !== 'on') return
-        const resData = Object.values(blinkCamera || {}).reduce((acc, curr) => {
-            if (curr.includes('Car') && curr.includes('Person')) {
-                return { isCar: false, isPerson: false, isBoth: true }
-            } else if (curr.includes('Car')) {
-                return { isCar: true, isPerson: false, isBoth: false }
-            } else if (curr.includes('Person')) {
-                return { isCar: false, isPerson: true, isBoth: false }
-            }
-        }, { isCar: false, isPerson: false, isBoth: false })
-        const { isCar, isPerson, isBoth } = resData || {}
-        if (isBoth) {
-            carPersonPlay()
-        } else if (isCar) {
-            carPlay()
-        } else if (isPerson) {
-            personPlay()
-        }
-
-    }, [blinkCamera, settingData])
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream`)
@@ -51,7 +23,9 @@ const VideoPlayer = () => {
         const videoUrl = `ws://localhost:6789/`;
         const player = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
+
         });
+        player.player.muted = true;
         const interval = setInterval(() => {
             if (player?.player?.currentTime > 0) {
                 setLoading(false);

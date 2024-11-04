@@ -4,67 +4,68 @@ import Loader from './ui/Loader';
 import { useApi } from 'use-hook-api';
 import { singleStreamApi } from '@/apis/stream';
 import { atom, useAtom } from 'jotai';
-import {usePathname} from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
-export const playerAtom=atom(null)
+export const playerAtom = atom(null)
 
 const SingleRtsp = ({ id }) => {
     const [loading, setLoading] = useState(true);
     const [player, setPlayer] = useAtom(playerAtom);
-    const pathname=usePathname()
-    const [callApi]=useApi({})
-console.log('pathname',pathname)
+    const pathname = usePathname()
+    const [callApi] = useApi({})
+    console.log('pathname', pathname)
 
-    const clearFun=()=>{
-        console.log('call',player)
+    const clearFun = () => {
+        console.log('call', player)
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
-        
+
         destroyFun()
-        
+
     }
 
 
-    const destroyFun=()=>{
-        try{
+    const destroyFun = () => {
+        try {
             player?.destroy()
-        }catch(err){
-            if(pathname==='/historical'){
+        } catch (err) {
+            if (pathname === '/historical') {
                 window.location.reload()
-            }else
-            window.location.replace(`/events/${id}`)
-            console.log("err11",err)
+            } else
+                window.location.replace(`/events/${id}`)
+            console.log("err11", err)
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         window.addEventListener("beforeunload", (event) => {
             fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}?stop=true`)
         });
-    },[])
+    }, [])
 
     useEffect(() => {
-     
+
         if (!id) return () => {
             clearFun()
         };
 
         setLoading(true)
-        callApi(singleStreamApi(id),null,()=>{
-           destroyFun()
+        callApi(singleStreamApi(id), null, () => {
+            destroyFun()
             setPlayer(null)
         })
-      /* fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}`)
-          .then((response) => response.json())
-          .then((data) => {
-
-          })
-          .catch((error) => console.error("Error starting stream:", error)); */
+        /* fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stream/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+  
+            })
+            .catch((error) => console.error("Error starting stream:", error)); */
         const videoUrl = `ws://localhost:6790/`;
         const pl = new JSMpeg.VideoElement("#video-canvas", videoUrl, {
             autoplay: true,
         });
+        pl.player.muted = true;
         setPlayer(pl);
-        
+
 
         return () => {
             clearFun()

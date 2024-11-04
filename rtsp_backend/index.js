@@ -24,7 +24,8 @@ app.get("/stream", (req, res) => {
   const stream1 = () => {
     stream = new Stream({
       name: "Bunny",
-      streamUrl: "rtsp://127.0.0.1:8554/ds-test",
+      /* streamUrl: "rtsp://127.0.0.1:8554/ds-test", */
+      streamUrl: 'rtsp://admin:zxcvbnm0.@190.92.4.249:554/cam/realmonitor?channel=1&subtype=0',
       wsPort: 6789,
       /*  ffmpegOptions: {
       "-f": "mpegts",
@@ -44,8 +45,8 @@ app.get("/stream", (req, res) => {
   if (stream) {
     stream.stop();
     stream = null
-    if(stop === "true")
-    return res.send({ message: "success" });
+    if (stop === "true")
+      return res.send({ message: "success" });
   }
   stream1();
   res.send({ message: "success" });
@@ -89,8 +90,8 @@ app.get("/stream/:id", (req, res) => {
   if (singleStream) {
     singleStream.stop();
     singleStream = null
-    if(stop === "true")
-    return res.send({ message: "success" });
+    if (stop === "true")
+      return res.send({ message: "success" });
   }
 
   stream1();
