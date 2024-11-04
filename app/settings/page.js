@@ -11,7 +11,7 @@ const Setting = () => {
   const [path, setPath] = useState('')
   const [audio, setAudio] = useState(false)
   const [, { data, loading }] = useApi({ cache: 'userSettings' }, getUserSettings())
-  const [callApi, { loading: postLoading }] = useApi({ both: true, resSuccessMsg: 'Settings saved successfully' });
+  const [callApi, { loading: postLoading }] = useApi({ both: true, refetchApis: ['userSettings'], resSuccessMsg: 'Settings saved successfully' });
 
   useEffect(() => {
     if (data) {
