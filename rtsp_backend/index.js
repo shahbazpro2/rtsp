@@ -26,19 +26,12 @@ app.get("/stream", (req, res) => {
       name: "Bunny",
       streamUrl: "rtsp://127.0.0.1:8554/ds-test",
       wsPort: 6789,
-      /*  ffmpegOptions: {
-      "-f": "mpegts",
-      "-codec:v": "mpeg1video",
-      "-b:v": "1000k",
-      "-stats": "",
-      "-r": 25,
-      "-s": "1920x1080",
-      "-bf": 0,
-      "-codec:a": "mp2",
-      "-ar": 44100,
-      "-ac": 1,
-      "-b:a": "128k",
-    }, */
+      ffmpegOptions: {
+        '-fflags': 'nobuffer',
+        '-r':30,
+        '-analyzeduration': '0',
+        '-probesize': '32'
+      }, 
     });
   };
   if (stream) {
@@ -62,7 +55,7 @@ app.get("/stream/:id", (req, res) => {
     return res.status(400).send({ message: "Camera not found" });
   }
 
-  const cameraData = currentQueueData[queues[0]]?.[parms] + ":554/Streaming/channels/102";
+  const cameraData = currentQueueData[queues[0]]?.[parms];
   if (!cameraData) {
     return res.send({ message: "Camera not found" });
   }
@@ -72,17 +65,11 @@ app.get("/stream/:id", (req, res) => {
       streamUrl: cameraData,
       wsPort: 6790,
       ffmpegOptions: {
-        "-f": "mpegts",
-        "-codec:v": "mpeg1video",
-        "-b:v": "512k", // Bitrate adjusted to 512 kbps
-        "-r": 30, // Adjust FPS to 15
-        "-s": "640x360", // Resolution matches the camera
-        "-bf": 0,
-        "-codec:a": "mp2",
-        "-ar": 44100,
-        "-ac": 1,
-        "-b:a": "128k",
-      },
+        '-fflags': 'nobuffer',
+        '-r':30,
+        '-analyzeduration': '0',
+        '-probesize': '32'
+      }, 
     });
   };
 
