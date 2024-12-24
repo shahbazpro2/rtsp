@@ -68,7 +68,8 @@ app.get("/stream/:id", (req, res) => {
         '-fflags': 'nobuffer',
         '-r':30,
         '-analyzeduration': '0',
-        '-probesize': '32'
+        '-probesize': '32',
+        '-an': '',
       }, 
     });
   };
