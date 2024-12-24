@@ -46,6 +46,7 @@ const SingleCameraBox = ({ data, isBlinking, boxHeight }) => {
     }, [isBlinking]) */
 
   const onMovementBlock = (e) => {
+    setStartBlinking(false);
     setIsDisabledMovement(true);
   }
 
