@@ -37,6 +37,7 @@ app.get("/stream", (req, res) => {
   if (stream) {
     stream.stop();
     stream = null
+    currentQueueData[queues[1]] = {}
     if (stop === "true")
       return res.send({ message: "success" });
   }
