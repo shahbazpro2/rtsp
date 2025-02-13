@@ -1,42 +1,96 @@
 "use client";
-import { useEffect, useState } from "react";
+import Audio from "@/components/pages/settings/audio";
+import CameraConfiguration from "@/components/pages/settings/camera";
+import Storage from "@/components/pages/settings/storage";
+import { Button } from "@/components/ui/button";
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useMemo } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useApi } from "use-hook-api";
 import { getUserSettings, postUserSettings } from "../../apis/settings";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import { useJotaiAtom } from "@/hooks/useJotaiAtom";
+
+const Heading = ({ children }) => (
+  <div className="font-bold text-lg my-5 bg-gray-100 p-3 rounded text-gray-800">
+    {children}
+  </div>
+);
+
+const settingStateAtom = atom({
+  path: "",
+  audio: false,
+  startTime: "",
+  endTime: "",
+  mute: false,
+  tts: false,
+});
+
+export const useSelectAtom = (key) => {
+  const setValue = useSetAtom(settingStateAtom);
+  const value = useJotaiAtom(key, settingStateAtom);
+
+  const setKeyValue = (newValue) => {
+    setValue((prev) => ({ ...prev, [key]: newValue }));
+  };
+
+  const setAnyValue = (payload) => {
+    setValue((prev) => ({ ...prev, [payload[0]]: payload[1] }));
+  };
+
+  return [value, setKeyValue, setAnyValue];
+};
+const Save = () => {
+  const [callApi, { loading: postLoading }] = useApi({
+    both: true,
+    refetchApis: ["userSettings"],
+    resSuccessMsg: "Settings saved successfully",
+  });
+  const [, { loading }] = useApi({ cache: "userSettings" });
+  const settingState = useAtomValue(settingStateAtom);
+
+  const onSave = () => {
+    const { path, audio } = settingState;
+    const formData = new FormData();
+    formData.append("frames_path", path);
+    formData.append("audio", audio ? "on" : "off");
+    callApi(postUserSettings(formData));
+  };
+
+  return (
+    <Button
+      disabled={loading || postLoading}
+      className="mt-5 w-full"
+      onClick={onSave}
+    >
+      Save
+    </Button>
+  );
+};
 
 const Setting = () => {
-  const [path, setPath] = useState('')
-  const [audio, setAudio] = useState(false)
-  const [, { data, loading }] = useApi({ cache: 'userSettings' }, getUserSettings())
-  const [callApi, { loading: postLoading }] = useApi({ both: true, refetchApis: ['userSettings'], resSuccessMsg: 'Settings saved successfully' });
+  const setSettingState = useSetAtom(settingStateAtom);
+  const [, { data }] = useApi({ cache: "userSettings" }, getUserSettings());
 
   useEffect(() => {
     if (data) {
-      setPath(data.frames_path)
-      setAudio(data.audio === 'on')
+      setSettingState((prev) => ({
+        ...prev,
+        path: data.frames_path,
+        audio: data.audio === "on",
+      }));
     }
-  }, [data])
-
-  const onSave = () => {
-    const formData = new FormData();
-    formData.append('frames_path', path);
-    formData.append('audio', audio ? 'on' : 'off');
-    callApi(postUserSettings(formData))
-  }
+  }, [data]);
 
   return (
-    <div className="mt-5 font-bold container">
-      <div className="max-w-2xl">
-        <div className="font-bold">Storage Path</div>
-        <Input type="text" className="mt-2" value={path} onChange={e => setPath(e.target.value)} />
-        <div className="mt-5 font-bold">Audio</div>
-        <div className="flex items-center space-x-2 mt-2">
-          <Switch checked={audio} onCheckedChange={val => setAudio(val)} />
-        </div>
-        <Button disabled={loading || postLoading} className="mt-5" onClick={onSave}>Save</Button>
+    <div className="mt-7 font-bold container py-5">
+      <div className="max-w-2xl mx-auto">
+        <Heading>Camera Configuration</Heading>
+        <CameraConfiguration />
+        <Heading>Storage Configuration</Heading>
+        <Storage />
+        <Heading>Audio Configuration</Heading>
+        <Audio />
+        <Save />
       </div>
     </div>
   );

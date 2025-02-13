@@ -1,16 +1,22 @@
 "use client";
 import DetectionHistory from "@/components/DetectionHistory";
 import SingleRtsp from "@/components/SingleRtsp";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { cameraAtom } from "@/hooks/useSocketEvents";
-import { useAtomValue } from "jotai";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import moment from "moment";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import SelectCamera from "@/components/SelectCamera";
 
 const Historical = () => {
-  const cameraAtomVal = useAtomValue(cameraAtom);
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [value, onChange] = useState(new Date());
   return (
@@ -23,26 +29,16 @@ const Historical = () => {
         )}
         <div id="container">
           <div className="mb-4">
-            <Select onValueChange={(val) => setSelectedCamera(val)}>
-              <SelectTrigger className="w-[350px]">
-                <SelectValue placeholder="Select a Camera" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {Object.keys(cameraAtomVal || {})?.map((camera) => (
-                    <SelectItem key={camera} value={camera}>
-                      {camera}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <SelectCamera setCamera={setSelectedCamera} />
           </div>
 
           <Calendar onChange={onChange} value={value} activeStartDate={value} />
         </div>
         <div className="col-span-2">
-          <DetectionHistory cameraId={selectedCamera} date={moment(value).format("YYYY-MM-DD")} />
+          <DetectionHistory
+            cameraId={selectedCamera}
+            date={moment(value).format("YYYY-MM-DD")}
+          />
         </div>
       </div>
     </div>
