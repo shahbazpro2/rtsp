@@ -25,6 +25,13 @@ const settingStateAtom = atom({
   tts: false,
 });
 
+/* export const useMultiSelectAtom = (keys) => {
+  return keys.reduce((acc, key) => {
+    acc[key] = useJotaiAtom(key, settingStateAtom);
+    return acc;
+  }, {});
+}; */
+
 export const useSelectAtom = (key) => {
   const setValue = useSetAtom(settingStateAtom);
   const value = useJotaiAtom(key, settingStateAtom);
@@ -49,10 +56,19 @@ const Save = () => {
   const settingState = useAtomValue(settingStateAtom);
 
   const onSave = () => {
-    const { path, audio } = settingState;
+    const { path, audio, mute, selectedCamera, tts, startTime, endTime } =
+      settingState;
     const formData = new FormData();
     formData.append("frames_path", path);
     formData.append("audio", audio ? "on" : "off");
+    formData.append("mute", mute ? "on" : "off");
+    formData.append("camera_id", selectedCamera);
+    formData.append("tts", tts);
+    if (startTime && endTime) {
+      formData.append("start_timestamp", startTime);
+      formData.append("end_timestamp", endTime);
+    }
+
     callApi(postUserSettings(formData));
   };
 

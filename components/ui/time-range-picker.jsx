@@ -26,6 +26,7 @@ export function TimeRangePicker({
     endTime,
     onStartTimeChange,
     onEndTimeChange,
+    disabled
 }) {
     const timeOptions = generateTimeOptions();
 
@@ -33,7 +34,7 @@ export function TimeRangePicker({
         <div className="grid grid-cols-2 gap-1">
             <div className="flex flex-col gap-2">
                 <Label htmlFor="start-time">Start Time</Label>
-                <Select value={startTime} onValueChange={onStartTimeChange}>
+                <Select value={startTime} onValueChange={onStartTimeChange} disabled={disabled}>
                     <SelectTrigger id="start-time">
                         <Clock className="mr-2 h-4 w-4" />
                         <SelectValue placeholder="Select start time" />
@@ -49,7 +50,7 @@ export function TimeRangePicker({
             </div>
             <div className="flex flex-col gap-2">
                 <Label htmlFor="end-time">End Time</Label>
-                <Select value={endTime} onValueChange={onEndTimeChange}>
+                <Select value={endTime} onValueChange={onEndTimeChange} disabled={disabled}>
                     <SelectTrigger id="end-time">
                         <Clock className="mr-2 h-4 w-4" />
                         <SelectValue placeholder="Select end time" />
