@@ -16,6 +16,10 @@ export const getAllCamerasConfigApi = () => {
   return responseApi("/get_camera_config", "get");
 };
 
-export const listCamerasApi=()=>{
-  return responseApi('/list_cameras','get')
-}
+export const listCamerasApi = () => {
+  return responseApi("/list_cameras", "get");
+};
+
+export const getCameraSettingsApi = (payload) => {
+  return responseApi(`/get_camera_settings`, "post", payload);
+};

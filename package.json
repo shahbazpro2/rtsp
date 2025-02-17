@@ -39,6 +39,7 @@
     "react-calendar": "^5.0.0",
     "react-dom": "^18",
     "react-medium-image-zoom": "^5.2.9",
+    "react-text-to-speech": "^1.2.4",
     "react-toastify": "^10.0.5",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
