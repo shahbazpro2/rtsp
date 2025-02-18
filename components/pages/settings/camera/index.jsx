@@ -7,23 +7,25 @@ import { useApi } from 'use-hook-api';
 import { useEffect } from 'react';
 import { getCameraSettingsApi } from '../../../../apis/camera';
 
-
 const CameraConfiguration = () => {
-    const [callApi] = useApi({})
+    const [callApi, { loading }] = useApi({})
     const [selectedCamera, setSelectedCamera] = useSelectAtom('selectedCamera')
     const [startTime, setStartTime] = useSelectAtom('startTime')
     const [endTime, setEndTime] = useSelectAtom('endTime')
     const [mute, setMute] = useSelectAtom('mute')
     const [tts, setTts] = useSelectAtom('tts')
 
-
     useEffect(() => {
         if (selectedCamera) {
-            callApi(getCameraSettingsApi({ camera_id: selectedCamera }), ({ data }) => {
-                setStartTime(data?.start_timestamp)
-                setEndTime(data?.end_timestamp)
-                setMute(data?.mute)
-                setTts(data?.tts)
+            const formData = new FormData()
+            formData.append('camera_id', selectedCamera)
+            callApi(getCameraSettingsApi(formData), ({ data }) => {
+                const dt = data?.[selectedCamera]
+                const [start_timestamp, end_timestamp] = dt?.timestamp
+                setStartTime(start_timestamp || '')
+                setEndTime(end_timestamp || '')
+                setMute(dt?.mute)
+                setTts(dt?.tts)
             })
         }
     }, [selectedCamera])

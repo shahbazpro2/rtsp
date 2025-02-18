@@ -13,40 +13,77 @@ const useSocketEvents = () => {
   const [blinkCamera, setBlinkCameraAtom] = useAtom(blinkCameraAtom);
   const setWallboardStreamAtom = useSetAtom(wallboardStreamAtom);
 
-  const settingData = useUserSettings()
-  const [carPlay] = useSound('/car.mp3')
-  const [personPlay] = useSound('/person.mp3')
-  const [carPersonPlay] = useSound('/car-person.mp3')
+  const settingData = useUserSettings();
+  const [carPlay] = useSound("/car.mp3");
+  const [personPlay] = useSound("/person.mp3");
+  const [carPersonPlay] = useSound("/car-person.mp3");
 
-  useEffect(() => {
-    if (settingData?.loading || settingData?.data?.audio !== 'on') return
-    const resData = Object.values(blinkCamera || {}).reduce((acc, curr) => {
-      if (curr.includes('Car') && curr.includes('Person')) {
-        return { isCar: false, isPerson: false, isBoth: true }
-      } else if (curr.includes('Car')) {
-        return { isCar: true, isPerson: false, isBoth: false }
-      } else if (curr.includes('Person')) {
-        return { isCar: false, isPerson: true, isBoth: false }
-      }
-    }, { isCar: false, isPerson: false, isBoth: false })
-    const { isCar, isPerson, isBoth } = resData || {}
-    if (isBoth) {
-      carPersonPlay()
-    } else if (isCar) {
-      carPlay()
-    } else if (isPerson) {
-      personPlay()
+  const isWithinTimestamp = (timestampRanges) => {
+    if (!timestampRanges || timestampRanges.length === 0) return true; // No restriction
+
+    const now = new Date();
+    const currentTime = now.getHours() * 60 + now.getMinutes(); // Convert to minutes
+
+    const [start, end] = timestampRanges.map((time) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      return hours * 60 + minutes;
+    });
+    console.log("ccc", currentTime, start, end);
+    return currentTime >= start && currentTime <= end;
+  };
+
+  const speakText = (text) => {
+    if (!window.speechSynthesis) {
+      console.warn("Speech Synthesis API is not supported.");
+      return;
     }
 
-  }, [blinkCamera, settingData])
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1; // Adjust speed (0.1 to 10)
+    utterance.pitch = 1; // Adjust pitch (0 to 2)
+    utterance.volume = 1; // Volume (0 to 1)
+
+    window.speechSynthesis.speak(utterance);
+  };
 
   useEffect(() => {
-    socket.on("connect", () => { });
+    if (settingData?.loading) return;
+
+    Object.entries(blinkCamera || {}).forEach(([camera, objects]) => {
+      const cameraSettings = settingData?.data?.audio_settings?.[camera] || {};
+      const ttsEnabled = cameraSettings.tts;
+      const isMuted = cameraSettings.mute;
+      const timestamps = cameraSettings.timestamp;
+
+      if (isMuted || !isWithinTimestamp(timestamps)) return;
+
+      let isCar = objects.includes("Car");
+      let isPerson = objects.includes("Person");
+      let isBoth = isCar && isPerson;
+
+      if (ttsEnabled) {
+        objects.forEach((obj, i) => {
+          speakText(`${camera} detected ${obj}`);
+        });
+      } else {
+        if (isBoth) {
+          carPersonPlay();
+        } else if (isCar) {
+          carPlay();
+        } else if (isPerson) {
+          personPlay();
+        }
+      }
+    });
+  }, [blinkCamera, settingData]);
+
+  useEffect(() => {
+    socket.on("connect", () => {});
 
     socket.emit("initialData", null);
 
-    socket.on('initialCamera', (val) => {
-      console.log('initialcamera', val)
+    socket.on("initialCamera", (val) => {
+      console.log("initialcamera", val);
       //sort the cameras by name like Camera 1, Camera 2, Camera 3
       const sortedCameras = Object.keys(val)
         .sort((a, b) => {
@@ -59,11 +96,11 @@ const useSocketEvents = () => {
           return acc;
         }, {});
       setCameraAtom(sortedCameras);
-    })
+    });
 
     socket.on("Camera-Status", (val) => {
-      console.log('cammsta', val)
-      window.location.reload()
+      console.log("cammsta", val);
+      window.location.reload();
     });
 
     socket.on("NVR-Alert", (val) => {

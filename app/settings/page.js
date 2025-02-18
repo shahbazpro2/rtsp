@@ -1,14 +1,13 @@
 "use client";
-import Audio from "@/components/pages/settings/audio";
 import CameraConfiguration from "@/components/pages/settings/camera";
 import Storage from "@/components/pages/settings/storage";
 import { Button } from "@/components/ui/button";
+import { useJotaiAtom } from "@/hooks/useJotaiAtom";
 import { atom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
 import { useApi } from "use-hook-api";
 import { getUserSettings, postUserSettings } from "../../apis/settings";
-import { useJotaiAtom } from "@/hooks/useJotaiAtom";
 
 const Heading = ({ children }) => (
   <div className="font-bold text-lg my-5 bg-gray-100 p-3 rounded text-gray-800">
@@ -60,8 +59,8 @@ const Save = () => {
       settingState;
     const formData = new FormData();
     formData.append("frames_path", path);
-    formData.append("audio", audio ? "on" : "off");
-    formData.append("mute", mute ? "on" : "off");
+    formData.append("audio", audio);
+    formData.append("mute", mute);
     formData.append("camera_id", selectedCamera);
     formData.append("tts", tts);
     if (startTime && endTime) {
@@ -92,7 +91,6 @@ const Setting = () => {
       setSettingState((prev) => ({
         ...prev,
         path: data.frames_path,
-        audio: data.audio === "on",
       }));
     }
   }, [data]);
@@ -104,8 +102,8 @@ const Setting = () => {
         <CameraConfiguration />
         <Heading>Storage Configuration</Heading>
         <Storage />
-        <Heading>Audio Configuration</Heading>
-        <Audio />
+        {/* <Heading>Audio Configuration</Heading>
+        <Audio /> */}
         <Save />
       </div>
     </div>

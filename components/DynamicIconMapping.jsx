@@ -45,7 +45,7 @@ const AddCamera = ({ popupOpen, setPopupOpen }) => {
                 <p>Do you want to add an icon here?</p>
                 <SelectCamera setCamera={setCameraInput} isApi />
                 <div className="mt-4 flex justify-end">
-                    <Button disabled={loading || !cameraInput || camerasLoading} onClick={handleConfirm} className="mr-2">Confirm</Button>
+                    <Button disabled={loading || !cameraInput} onClick={handleConfirm} className="mr-2">Confirm</Button>
                     <Button onClick={handleCancel}>Cancel</Button>
                 </div>
             </div>
